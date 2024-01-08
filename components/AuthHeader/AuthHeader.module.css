@@ -1,0 +1,43 @@
+.mainHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  padding: 30px 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.logo {
+  color: #000;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 6vw, 1.7rem);
+  text-decoration: none;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigation li {
+  list-style: none;
+  margin-left: 20px;
+}
+
+.navigation li a {
+  text-decoration: none;
+  padding: 6px 15px;
+  color: #000;
+  border-radius: 5px;
+  font-size: clamp(0.9rem, 6vw, 1rem);
+}
+
+.navigation li a:hover,
+.navigation li a.active {
+  background: var(--cor-secundaria);
+  color: #fff;
+}

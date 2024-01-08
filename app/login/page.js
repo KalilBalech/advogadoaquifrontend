@@ -3,6 +3,7 @@ import styles from "./login.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import LoginHeader from "@/components/LoginHeader/LoginHeader";
 
 export default function Login() {
   const router = useRouter();
@@ -74,36 +75,39 @@ export default function Login() {
   };
 
   return (
-    <div className={styles.loginBox}>
-      <h2>Bem-vindo de volta, Doutor!</h2>
-      <form onSubmit={handleLogin}>
-        <div className={styles.userBox}>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <label>Email</label>
-        </div>
-        <div className={styles.userBox}>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <label>Senha</label>
-        </div>
-        <p>{errorMessage}</p>
-        <button type="submit">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          Entrar
-        </button>
-      </form>
-    </div>
+    <body>
+      <LoginHeader></LoginHeader>
+      <div className={styles.loginBox}>
+        <h2>Bem-vindo de volta, Doutor!</h2>
+        <form onSubmit={handleLogin}>
+          <div className={styles.userBox}>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <label>Email</label>
+          </div>
+          <div className={styles.userBox}>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <label>Senha</label>
+          </div>
+          <p>{errorMessage}</p>
+          <button type="submit">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Entrar
+          </button>
+        </form>
+      </div>
+    </body>
   );
 }

@@ -7,7 +7,7 @@ export default function Header(props){
             <Link href="/" className={styles.logo}>Advogado aqui</Link>
             <ul className={styles.navigation}>
                 <li><Link href="/login">Entrar</Link></li>
-                <li><a href="#">Cadastre-se</a></li>
+                <li><Link href="/">Cadastre-se</Link></li>
             </ul>
         </div>
     )
