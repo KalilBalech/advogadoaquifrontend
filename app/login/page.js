@@ -1,11 +1,11 @@
 "use client";
 import styles from "./login.module.css";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function Login() {
-    const router = useRouter()
+  const router = useRouter();
 
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -13,6 +13,26 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      const tokenReqData = {
+        'token': localStorage.getItem("token")
+      }
+      axios
+      .post(`${BASE_URL}/lawyer/token/verify/`, tokenReqData, {
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        router.push("/lawyer");
+      })
+      .catch((error) => {
+        console.log("Token inválido: ",error)
+      });
+    }
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -21,19 +41,14 @@ export default function Login() {
       email,
       password,
     };
-    try {
-      const response = await axios.post(
-        `${BASE_URL}/lawyer/login/`,
-        requestData,
-        {
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    // console.log("CHEGOU AQUIIIII")
-    //   if (response.status === 200 || response.status === 201) {
+    axios
+      .post(`${BASE_URL}/lawyer/login/`, requestData, {
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
         const token = response.data.access;
         const base64Payload = token.split(".")[1];
         const payload = atob(base64Payload);
@@ -44,15 +59,18 @@ export default function Login() {
         localStorage.setItem("lawyerID", lawyerID);
         localStorage.removeItem("personalID");
 
-        router.push('/lawyer')
-
-    //   } else {
-    //     console.log(reponse);
-    //     setErrorMessage("Não há nenhuma conta ativa com essas credenciais");
-    //   }
-    } catch (error) {
-      setErrorMessage("Email ou senha inválidos");
-    }
+        router.push("/lawyer");
+      })
+      .catch((error) => {
+        if (error.response == undefined) {
+          setErrorMessage("Parece que nosso servidor está fora do ar...");
+        } else {
+          const statusCode = error.response.status;
+          if (statusCode == 401) {
+            setErrorMessage("Email ou senha inválidos");
+          }
+        }
+      });
   };
 
   return (
