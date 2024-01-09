@@ -4,10 +4,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios'
 import MyIcon from '../MyIcon/MyIcon';
 import Button from '../Button/Button'
-// import { useRouter } from 'next/router';
 
 export default function Case(props){
-    // const router = useRouter();
     const token = localStorage.getItem('token')
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const [clicked, setClicked] = useState(false)
@@ -27,7 +25,7 @@ export default function Case(props){
             })
             .then((response) => {
               console.log("response: ", response);
-            //   router.reload();
+              props.case.hasUpdate = false
             })
             .catch((error) => {
               console.log("Ocorreu algum erro na atualização do processo: ", error);
@@ -36,7 +34,6 @@ export default function Case(props){
     useEffect(()=>{
         if(clicked){
             setTimeout(() => {
-                // Coloque aqui a ação que você quer executar após 3 segundos
                 setClicked(false)
             }, 3000);
         }
@@ -49,7 +46,8 @@ export default function Case(props){
         const putReqData = {
             'lastMessage': message
         }
-        axios
+        if(message != props.case.lastMessage){
+            axios
             .put(`${BASE_URL}/case/${props.case.id}/`, putReqData, {
               headers: {
                 Accept: "*/*",
@@ -60,17 +58,19 @@ export default function Case(props){
             .then((response) => {
                 console.log("LastMessage alterada com sucesso")
                 console.log("response: ", response);
+                props.case.lastMessage = message
             })
             .catch((error) => {
               console.log("Ocorreu algum erro na atualização da lastMessage: ", error);
             });
+        }
     }
     return(
         <div key={props.case.id} className={styles.caseDiv}>
             <h2>{props.case.number}</h2>
             {props.case.hasUpdate && <>
                 <p>PROCESSO COM NOVIDADES</p>
-                <p>Mensagem sugerida para o cliente: </p>
+                <p>&#128521; Mensagem sugerida para o cliente: </p>
                 {!isEditingMessage && <p className={styles.lastMessage}>{message}</p>}
                 {isEditingMessage && <textarea autoFocus value={message} onChange={(event) => setMessage(event.target.value)} className={styles.textarea} rows='8' spellCheck="false"/>}
                 <div className={styles.buttons}>
@@ -87,6 +87,11 @@ export default function Case(props){
                 {clicked && <button className={styles.button} onClick={()=>handlePutHasUpdate()}>Confirmar?</button>}
             </>
             }
+            {!props.case.hasUpdate && <>
+                <p>&#128077; Sem atualização no último mês</p>
+            </>
+            }
+
         </div>
     )
 }
