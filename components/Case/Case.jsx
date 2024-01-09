@@ -4,18 +4,23 @@ import { useState, useEffect } from 'react';
 import axios from 'axios'
 import MyIcon from '../MyIcon/MyIcon';
 import Button from '../Button/Button'
+import Loading from '../Loading/Loading'
 
 export default function Case(props){
     const token = localStorage.getItem('token')
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const [clicked, setClicked] = useState(false)
     const [isEditingMessage, setIsEditingMessage] = useState(false)
-    const [isSendingMessageByWhatsApp, setIsSendingMessageByWhatsApp] = useState(false)
+    const [sendMessageByWhatsAppWindow, setSendMessageByWhatsAppWindow] = useState(false)
     const [message, setMessage] = useState(props.case.lastMessage)
-    const [lawyerPhoneNumber, setLawyerPhoneNumber] = useState('')
+    const [caseURL, setCaseURL] = useState('')
+    const [redirectToCaseURLWindow, setRedirectToCaseURLWindow] = useState(false)
+    const [isLoadingURL, setIsLoadingURL] = useState(false)
     const [customerPhoneNumber, setCustomerPhoneNumber] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
     const handlePutHasUpdate = ()=>{
+        setSendMessageByWhatsAppWindow(false)
+
         const putReqData = {
             'hasUpdate': false
         }
@@ -70,21 +75,44 @@ export default function Case(props){
         }
     }
     const handleSendMessageByWhatsapp = () => {
-        setIsSendingMessageByWhatsApp(!isSendingMessageByWhatsApp)
+        setSendMessageByWhatsAppWindow(!sendMessageByWhatsAppWindow)
     }
     const sendWhatsAppMessage = () =>{
         window.open(`https://wa.me/${customerPhoneNumber}?text=${message}`, '_blank')
-        setIsSendingMessageByWhatsApp(false)
+        setSendMessageByWhatsAppWindow(false)
+    }
+    const returnCasePage = ()=>{
+        setIsLoadingURL(true)
+        setSendMessageByWhatsAppWindow(false)
+        axios.get(`${BASE_URL}/case/${props.case.id}/url/`, {headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          }})
+          .then(response =>{
+            setCaseURL(response.data)
+            setRedirectToCaseURLWindow(true)
+            setIsLoadingURL(false)
+          })
+          .catch(error=>{
+            console.log("error: ", error)
+          })
     }
     return(
     <div className={styles.mainWindow}>
         <div key={props.case.id} className={styles.caseDiv}>
-            <h2 className={styles.caseNumber}>{props.case.number}</h2>
+            <div className={styles.caseNumber}><button className={styles.caseNumberButton} onClick={()=>{returnCasePage()}}><span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                {props.case.number}</button>
+            {isLoadingURL && <Loading></Loading>}
+            </div>
             {props.case.hasUpdate && <>
                 <p>PROCESSO COM NOVIDADES</p>
                 <p>&#128521; Mensagem sugerida para o cliente: </p>
                 {!isEditingMessage && <p className={styles.lastMessage}>{message}</p>}
-                {isEditingMessage && <textarea autoFocus value={message} onChange={(event) => setMessage(event.target.value)} className={styles.textarea} rows='8' spellCheck="false"/>}
+                {isEditingMessage && <textarea autoFocus value={message} onChange={(event) => setMessage(event.target.value)} className={styles.textarea} rows='10' cols='60' spellCheck="false"/>}
                 <div className={styles.buttons}>
                     <div className={styles.sendMessageButtons}>
                         <MyIcon src='/whatsapp-icon.svg' alt='whatsapp icon' width='24' height='24' title='Enviar mensagem por WhatsApp' onClick={handleSendMessageByWhatsapp}></MyIcon>
@@ -105,17 +133,8 @@ export default function Case(props){
             }
 
         </div>
-        {isSendingMessageByWhatsApp && <div className={styles.contactInfo}>
+        {sendMessageByWhatsAppWindow && <div className={styles.contactInfo}>
             <h2>Informações de contato!</h2>
-            {/* <div className={styles.userBox}>
-                <input
-                type="text"
-                value={lawyerPhoneNumber}
-                onChange={(e) => setLawyerPhoneNumber(e.target.value)}
-                required
-                />
-                <label>Seu whatsApp, Doutor</label>
-            </div> */}
             <div className={styles.userBox}>
                 <input
                 type="text"
@@ -132,6 +151,20 @@ export default function Case(props){
                 <span></span>
                 <span></span>
                 Enviar
+            </button>
+        </div>
+        }
+        {redirectToCaseURLWindow && <div className={styles.contactInfo}>
+            <h2>Ir à página do processo?</h2>
+            <button type="submit" onClick={()=>{
+                window.open(caseURL, '_blank')
+                setRedirectToCaseURLWindow(false)
+            }}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Sim
             </button>
         </div>
         }
