@@ -3,7 +3,7 @@ import styles from "./login.module.css";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import LoginHeader from "@/components/LoginHeader/LoginHeader";
+import Header from "@/components/Header/Header";
 
 export default function Login() {
   const router = useRouter();
@@ -76,7 +76,7 @@ export default function Login() {
 
   return (
     <body>
-      <LoginHeader></LoginHeader>
+      <Header></Header>
       <div className={styles.loginBox}>
         <h2>Bem-vindo de volta, Doutor!</h2>
         <form onSubmit={handleLogin}>

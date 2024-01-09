@@ -1,20 +1,18 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import axios from "axios";
 import AuthHeader from "@/components/AuthHeader/AuthHeader";
+import Case from "@/components/Case/Case";
+import { useRouter } from "next/navigation";
+
 
 export default function Lawyer() {
-  const router = useRouter();
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const router = useRouter();
+    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const token = localStorage.getItem("token");
   const lawyerID = localStorage.getItem("lawyerID");
-  const [cases, setCases] = useState(null)
-  
-  const listCases = cases ? cases.map(case => // erro na api - ao fazer o get, nao retorna o sexo nem o birthDate
-    <p>{case.number}</p>
-  ) : <p>não há atletas</p>
+  const [cases, setCases] = useState([])
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -52,12 +50,19 @@ export default function Lawyer() {
     }
   }, []);
   return (
+  <>
     <body>
       <AuthHeader></AuthHeader>
-      <h1>Seus processos de São Paulo</h1>;
-      <ul>
-        {cases.map(case => <li key={case.id}>{case.number}</li>)}
-      </ul>
+      <div className={styles.mainWindow}>
+        <h1>Seus processos de São Paulo ({cases.length})</h1>
+        <ul>
+            {cases.map((caseItem) => (
+                // <li key={caseItem.id}>{caseItem.number}</li>
+                <Case key={caseItem.id} case={caseItem}></Case>
+                ))}
+        </ul>
+      </div>
     </body>
+    </>
   );
 }

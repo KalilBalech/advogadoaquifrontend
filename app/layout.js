@@ -1,11 +1,13 @@
-import { Inter } from 'next/font/google'
+import { Raleway } from 'next/font/google'
+ 
+const raleway = Raleway({
+  weight: '400',
+  subsets: ['latin'],
+})
+
 import './globals.css'
-import Header from '@/components/Header/Header'
-
-const inter = Inter({ subsets: ['latin'] })
-
 export const metadata = {
-  title: 'Advogado aqui',
+  title: 'Advogado AI',
   description: 'Tecnologia para advogados',
 }
 

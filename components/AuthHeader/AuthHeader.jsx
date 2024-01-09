@@ -1,18 +1,24 @@
 import styles from './AuthHeader.module.css'
 import Link from 'next/link'
+import LinkBorderButton from '../LinkBorderButton/LinkBorderButton'
+import LinkButton from '../LinkButton/LinkButton'
+import { useRouter } from "next/navigation";
 
-export default function AuthHeader(props){
+
+export default function Header(props){
+    const router = useRouter();
     const handleLogout = ()=>{
         localStorage.removeItem('token')
         localStorage.removeItem('lawyerID')
+        router.push("/");
     }
     return (
         <div className={styles.mainHeader}>
-            <Link href="/" className={styles.logo}>Advogado aqui</Link>
-            <ul className={styles.navigation}>
-                <li><Link href="/login">Perfil</Link></li>
-                <li><Link href="/" onClick={()=> handleLogout()}>Logout</Link></li>
-            </ul>
+            <Link href="/" className={styles.logo}>Advogado AI</Link>
+            <div className={styles.navigation}>
+                <LinkBorderButton text='Meu perfil' href='/profile'></LinkBorderButton>
+                <LinkButton text='Logout' href="/" onClick={()=>handleLogout()}></LinkButton>
+            </div>
         </div>
     )
 }
