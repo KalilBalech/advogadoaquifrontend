@@ -10,7 +10,11 @@ export default function Case(props){
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const [clicked, setClicked] = useState(false)
     const [isEditingMessage, setIsEditingMessage] = useState(false)
+    const [isSendingMessageByWhatsApp, setIsSendingMessageByWhatsApp] = useState(false)
     const [message, setMessage] = useState(props.case.lastMessage)
+    const [lawyerPhoneNumber, setLawyerPhoneNumber] = useState('')
+    const [customerPhoneNumber, setCustomerPhoneNumber] = useState('')
+    const [errorMessage, setErrorMessage] = useState('');
     const handlePutHasUpdate = ()=>{
         const putReqData = {
             'hasUpdate': false
@@ -65,9 +69,17 @@ export default function Case(props){
             });
         }
     }
+    const handleSendMessageByWhatsapp = () => {
+        setIsSendingMessageByWhatsApp(!isSendingMessageByWhatsApp)
+    }
+    const sendWhatsAppMessage = () =>{
+        window.open(`https://wa.me/${customerPhoneNumber}?text=${message}`, '_blank')
+        setIsSendingMessageByWhatsApp(false)
+    }
     return(
+    <div className={styles.mainWindow}>
         <div key={props.case.id} className={styles.caseDiv}>
-            <h2>{props.case.number}</h2>
+            <h2 className={styles.caseNumber}>{props.case.number}</h2>
             {props.case.hasUpdate && <>
                 <p>PROCESSO COM NOVIDADES</p>
                 <p>&#128521; Mensagem sugerida para o cliente: </p>
@@ -75,7 +87,7 @@ export default function Case(props){
                 {isEditingMessage && <textarea autoFocus value={message} onChange={(event) => setMessage(event.target.value)} className={styles.textarea} rows='8' spellCheck="false"/>}
                 <div className={styles.buttons}>
                     <div className={styles.sendMessageButtons}>
-                        <MyIcon src='/whatsapp-icon.svg' alt='whatsapp icon' width='24' height='24' title='Enviar mensagem por WhatsApp'></MyIcon>
+                        <MyIcon src='/whatsapp-icon.svg' alt='whatsapp icon' width='24' height='24' title='Enviar mensagem por WhatsApp' onClick={handleSendMessageByWhatsapp}></MyIcon>
                         <MyIcon src='/gmail-icon.svg' alt='whatsapp icon' width='24' height='24' title='Enviar mensagem por email'></MyIcon>
                     </div>
                     <div className={styles.editMessageButton}>
@@ -93,5 +105,36 @@ export default function Case(props){
             }
 
         </div>
+        {isSendingMessageByWhatsApp && <div className={styles.contactInfo}>
+            <h2>Informações de contato!</h2>
+            {/* <div className={styles.userBox}>
+                <input
+                type="text"
+                value={lawyerPhoneNumber}
+                onChange={(e) => setLawyerPhoneNumber(e.target.value)}
+                required
+                />
+                <label>Seu whatsApp, Doutor</label>
+            </div> */}
+            <div className={styles.userBox}>
+                <input
+                type="text"
+                value={customerPhoneNumber}
+                onChange={(e) => setCustomerPhoneNumber(e.target.value)}
+                required
+                />
+                <label>Cliente não especificado. Qual o whatsApp dele?</label>
+            </div>
+            <p>{errorMessage}</p>
+            <button type="submit" onClick={()=>{sendWhatsAppMessage()}}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Enviar
+            </button>
+        </div>
+        }
+    </div>
     )
 }

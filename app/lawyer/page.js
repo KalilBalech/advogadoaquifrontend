@@ -25,6 +25,24 @@ export default function Lawyer() {
           },
         })
         .then((response) => {
+          // PEGAR AS INFORMAÇÕES PESSOAIS DO LAWYER
+          axios
+            .get(`${BASE_URL}/lawyer/${lawyerID}/`, {
+              headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+              },
+            })
+            .then((response) => {
+              console.log("As informações pessoais do advogado foram pegas")
+              console.log("response: ", response);
+            })
+            .catch((error) => {
+              console.log("Ocorreu algum erro na busca das informações pessoais do advogado: ", error);
+            });
+          
+            // PEGAR OS PROCESSOS DO LAWYER
           axios
             .get(`${BASE_URL}/case/lawyer/${lawyerID}/`, {
               headers: {
