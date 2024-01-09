@@ -11,15 +11,17 @@ export default function Case(props){
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
     const [clicked, setClicked] = useState(false)
     const [isEditingMessage, setIsEditingMessage] = useState(false)
-    const [sendMessageByWhatsAppWindow, setSendMessageByWhatsAppWindow] = useState(false)
+    const [sendMessageByWhatsappWindow, setSendMessageByWhatsappWindow] = useState(false)
+    const [sendMessageByEmailWindow, setSendMessageByEmailWindow] = useState(false)
     const [message, setMessage] = useState(props.case.lastMessage)
     const [caseURL, setCaseURL] = useState('')
     const [redirectToCaseURLWindow, setRedirectToCaseURLWindow] = useState(false)
     const [isLoadingURL, setIsLoadingURL] = useState(false)
     const [customerPhoneNumber, setCustomerPhoneNumber] = useState('')
+    const [customerEmail, setCustomerEmail] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
     const handlePutHasUpdate = ()=>{
-        setSendMessageByWhatsAppWindow(false)
+        setSendMessageByWhatsappWindow(false)
 
         const putReqData = {
             'hasUpdate': false
@@ -74,29 +76,45 @@ export default function Case(props){
             });
         }
     }
-    const handleSendMessageByWhatsapp = () => {
-        setSendMessageByWhatsAppWindow(!sendMessageByWhatsAppWindow)
+    const handleWhatsappIconClick = () => {
+        setSendMessageByWhatsappWindow(!sendMessageByWhatsappWindow)
+        setSendMessageByEmailWindow(false)
+        setRedirectToCaseURLWindow(false)
+    }
+    const handleEmailIconClick = () => {
+        setSendMessageByWhatsappWindow(false)
+        setSendMessageByEmailWindow(!sendMessageByEmailWindow)
+        setRedirectToCaseURLWindow(false)
     }
     const sendWhatsAppMessage = () =>{
         window.open(`https://wa.me/${customerPhoneNumber}?text=${message}`, '_blank')
-        setSendMessageByWhatsAppWindow(false)
+        setSendMessageByWhatsappWindow(false)
     }
     const returnCasePage = ()=>{
-        setIsLoadingURL(true)
-        setSendMessageByWhatsAppWindow(false)
-        axios.get(`${BASE_URL}/case/${props.case.id}/url/`, {headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          }})
-          .then(response =>{
-            setCaseURL(response.data)
+        if(caseURL == ''){
+                setIsLoadingURL(true)
+                setSendMessageByWhatsappWindow(false)
+                axios.get(`${BASE_URL}/case/${props.case.id}/url/`, {headers: {
+                Accept: "*/*",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            }})
+            .then(response =>{
+                setCaseURL(response.data)
+                setIsLoadingURL(false)
+                setRedirectToCaseURLWindow(true)
+                setSendMessageByWhatsappWindow(false)
+                setSendMessageByEmailWindow(false)
+            })
+            .catch(error=>{
+                console.log("error: ", error)
+            })
+        }
+        else{
             setRedirectToCaseURLWindow(true)
-            setIsLoadingURL(false)
-          })
-          .catch(error=>{
-            console.log("error: ", error)
-          })
+            setSendMessageByWhatsappWindow(false)
+            setSendMessageByEmailWindow(false)
+        }
     }
     return(
     <div className={styles.mainWindow}>
@@ -115,8 +133,8 @@ export default function Case(props){
                 {isEditingMessage && <textarea autoFocus value={message} onChange={(event) => setMessage(event.target.value)} className={styles.textarea} rows='10' cols='60' spellCheck="false"/>}
                 <div className={styles.buttons}>
                     <div className={styles.sendMessageButtons}>
-                        <MyIcon src='/whatsapp-icon.svg' alt='whatsapp icon' width='24' height='24' title='Enviar mensagem por WhatsApp' onClick={handleSendMessageByWhatsapp}></MyIcon>
-                        <MyIcon src='/gmail-icon.svg' alt='whatsapp icon' width='24' height='24' title='Enviar mensagem por email'></MyIcon>
+                        <MyIcon src='/whatsapp-icon.svg' alt='whatsapp icon' width='24' height='24' title='Enviar mensagem por WhatsApp' onClick={handleWhatsappIconClick}></MyIcon>
+                        <MyIcon src='/gmail-icon.svg' alt='whatsapp icon' width='24' height='24' title='Enviar mensagem por email' onClick={handleEmailIconClick}></MyIcon>
                     </div>
                     <div className={styles.editMessageButton}>
                     {!isEditingMessage && <MyIcon src='/edit-icon.svg' alt='whatsapp icon' width='24' height='24' title="Editar mensagem sugerida" onClick={handleBeginEditingMessage}></MyIcon>}
@@ -133,7 +151,7 @@ export default function Case(props){
             }
 
         </div>
-        {sendMessageByWhatsAppWindow && <div className={styles.contactInfo}>
+        {sendMessageByWhatsappWindow && <div className={styles.contactInfo}>
             <h2>Informações de contato!</h2>
             <div className={styles.userBox}>
                 <input
@@ -143,6 +161,38 @@ export default function Case(props){
                 required
                 />
                 <label>Cliente não especificado. Qual o whatsApp dele?</label>
+            </div>
+            <p>{errorMessage}</p>
+            <button type="submit" onClick={()=>{sendWhatsAppMessage()}}>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Enviar
+            </button>
+        </div>
+        }
+        {sendMessageByEmailWindow && <div className={styles.contactInfo}>
+            <h2>Informações de contato!</h2>
+            {props.lawyer.emailAuth==null &&
+            <div className={styles.userBox}>
+                <input
+                type="text"
+                value={customerPhoneNumber}
+                onChange={(e) => setCustomerPhoneNumber(e.target.value)}
+                required
+                />
+                <label>A autorização para uso do seu email ainda não foi fornecida</label>
+            </div>
+            }
+            <div className={styles.userBox}>
+                <input
+                type="text"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+                required
+                />
+                <label>Cliente não especificado. Qual o email dele?</label>
             </div>
             <p>{errorMessage}</p>
             <button type="submit" onClick={()=>{sendWhatsAppMessage()}}>

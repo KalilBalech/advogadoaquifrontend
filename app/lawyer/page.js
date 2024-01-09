@@ -13,6 +13,7 @@ export default function Lawyer() {
   const token = localStorage.getItem("token");
   const lawyerID = localStorage.getItem("lawyerID");
   const [cases, setCases] = useState([])
+  const [lawyer, setLawyer] = useState(null)
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -37,6 +38,7 @@ export default function Lawyer() {
             .then((response) => {
               console.log("As informações pessoais do advogado foram pegas")
               console.log("response: ", response);
+              setLawyer(response.data)
             })
             .catch((error) => {
               console.log("Ocorreu algum erro na busca das informações pessoais do advogado: ", error);
@@ -76,7 +78,7 @@ export default function Lawyer() {
         <ul>
             {cases.map((caseItem) => (
                 // <li key={caseItem.id}>{caseItem.number}</li>
-                <Case key={caseItem.id} case={caseItem}></Case>
+                <Case key={caseItem.id} case={caseItem} lawyer={lawyer}></Case>
                 ))}
         </ul>
       </div>
