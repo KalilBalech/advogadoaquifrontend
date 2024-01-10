@@ -15,6 +15,8 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
+    console.log("ENTROU NA PAGINA DE LOGIN")
+    console.log("BASE URL: " + BASE_URL)
     if (localStorage.getItem("token")) {
       const tokenReqData = {
         'token': localStorage.getItem("token")
