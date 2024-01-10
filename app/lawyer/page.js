@@ -9,13 +9,13 @@ import { useRouter } from "next/navigation";
 
 export default function Lawyer() {
     const router = useRouter();
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const token = localStorage.getItem("token");
-  const lawyerID = localStorage.getItem("lawyerID");
-  const [cases, setCases] = useState([])
-  const [lawyer, setLawyer] = useState(null)
-
-  useEffect(() => {
+    const BASE_URL = process.env.BASE_URL;
+    const [cases, setCases] = useState([])
+    const [lawyer, setLawyer] = useState(null)
+    
+    useEffect(() => {
+    const token = localStorage.getItem("token");
+    const lawyerID = localStorage.getItem("lawyerID");
     if (localStorage.getItem("token")) {
       const tokenReqData = { token };
       axios

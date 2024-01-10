@@ -8,7 +8,7 @@ import Loading from '../Loading/Loading'
 
 export default function Case(props){
     const token = localStorage.getItem('token')
-    const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+    const BASE_URL = process.env.BASE_URL;
     const [clicked, setClicked] = useState(false)
     const [isEditingMessage, setIsEditingMessage] = useState(false)
     const [sendMessageByWhatsappWindow, setSendMessageByWhatsappWindow] = useState(false)

@@ -8,7 +8,7 @@ import Header from "@/components/Header/Header";
 export default function Login() {
   const router = useRouter();
 
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const BASE_URL = process.env.BASE_URL;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
