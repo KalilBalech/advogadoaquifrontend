@@ -40,7 +40,7 @@ export default function Login() {
     event.preventDefault();
     setErrorMessage("");
     const requestData = {
-      email,
+      email: email.toLowerCase(),
       password,
     };
     axios
