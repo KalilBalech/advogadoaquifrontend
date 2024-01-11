@@ -226,5 +226,9 @@
     height: fit-content;  /* Altura da div, ajuste conforme necessário */
     /* Outras propriedades estilísticas como cor de fundo, bordas, etc., podem ser adicionadas aqui */
     }
+
+    .card .userBox input {
+      padding: 20px 0;
+    }
   
 }
