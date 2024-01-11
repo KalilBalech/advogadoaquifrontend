@@ -23,6 +23,7 @@ export default function Case(props){
     const [errorMessage, setErrorMessage] = useState('');
     const handlePutHasUpdate = ()=>{
         setSendMessageByWhatsappWindow(false)
+        props.case.hasUpdate = false
 
         const putReqData = {
             'hasUpdate': false
@@ -37,10 +38,10 @@ export default function Case(props){
             })
             .then((response) => {
               console.log("response: ", response);
-              props.case.hasUpdate = false
             })
             .catch((error) => {
               console.log("Ocorreu algum erro na atualização do processo: ", error);
+              props.case.hasUpdate = true
             });
     }
     useEffect(()=>{
