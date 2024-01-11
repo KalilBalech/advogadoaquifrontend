@@ -1,9 +1,8 @@
 .mainWindow{
     display: flex;
     flex-direction: row;
-    gap: 5px;
-    width: 100vw;
-    padding-left: 10px;
+    gap: 20px;
+    width: 100%;
     border-left: 2px solid var(--cor-principal);
 }
 
@@ -11,12 +10,12 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    max-width: 600px;
-    border-left: 2px solid var(--cor-principal);
+    width: 600px;
+    max-width: 100%;
     padding-left: 10px;
 }
 
-.caseNumber{
+.caseNumberDiv{
     display: flex;
     flex-direction: row;
     gap: 20px
@@ -36,37 +35,9 @@
     margin-bottom: -1px;
 }
 
-.loading{
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    background: #fff url('/loader.gif') no-repeat center center;
-    z-index: 9999;
-}
-
-.button{
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    border: solid 1px var(--cor-principal);
-    border-radius: 0px;
-    background-color: white;
-    font-size: 16px;
-    text-decoration: none;
-    transition: all 0.3s ease; /* Adiciona a animação */
-    /* background-size: 200% 100%;
-    background-image: linear-gradient(to right, purple 50%, white 50%);
-    background-position: right bottom; */
-}
-
-.button:hover{
-    cursor: pointer;
-    border-radius: 20px;
-    /* background-position: left bottom; */
-}
-
 .lastMessage{
     margin: 20px 0;
-    margin-left: 20px;
+    padding-left: 20px;
 }
 
 .textarea{
@@ -75,10 +46,10 @@
     border: 1px solid #000;
     font-size: 16px;
     padding: 5px;
-    border-radius: 10px;
+    border-radius: 0px;
     resize: none;
     overflow: none;
-}
+  }
 
 .textarea:focus {
     outline: 0;
@@ -92,16 +63,34 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 10px;
-}
-
-.sendMessageButtons{
+  }
+  
+  .sendMessageButtons{
     display: flex;
     flex-direction: row;
     gap: 20px;
-}
+  }
+  
+  .updateButton{
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      border: solid 1px var(--cor-principal);
+      border-radius: 0px;
+      background-color: white;
+      font-size: 16px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+  }
+  
+  .updateButton:hover{
+      cursor: pointer;
+      border-radius: 20px;
+      /* background-position: left bottom; */
+  }
 
-.contactInfo {
+  .contactInfo {
     width: 400px;
+    max-width: 100%;
     padding: 40px;
     margin: auto;
     background: #fff;
@@ -184,16 +173,17 @@
     display: block;
   }
   
-  /* .contactInfo button span:nth-child(1) {
-    top: 0;
+  .contactInfo button span:nth-child(3) {
+    bottom: 0;
     left: -100%;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--cor-principal));
-    animation: btn-anim1 1s linear infinite;
-  } */
-/*   
-  @keyframes btn-anim1 {
+    background: linear-gradient(270deg, transparent, var(--cor-principal));
+    animation: btn-anim3 0.8s linear infinite;
+    animation-delay: 1.2s;
+  }
+  
+  @keyframes btn-anim3 {
     0% {
       left: -100%;
     }
@@ -203,25 +193,173 @@
     }
   }
   
-  .contactInfo button span:nth-child(2) {
-    top: -100%;
-    right: 0;
-    width: 2px;
-    height: 100%;
-    background: linear-gradient(180deg, transparent, var(--cor-principal));
-    animation: btn-anim2 1s linear infinite;
-    animation-delay: 0.25s;
-  } */
+@media (max-width: 700px) {
+
+.caseDiv{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 600px;
+    max-width: 100%;
+    padding-left: 10px;
+}
+
+.caseNumberDiv{
+    display: flex;
+    flex-direction: row;
+    gap: 20px
+}
+
+.caseNumberButton{
+    font-size: 24px;
+    color: var(--cor-principal);
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px solid var(--cor-principal);
+}
+
+.caseNumberButton:hover{
+    cursor: pointer;
+    border-bottom: 2px solid var(--cor-principal);
+    margin-bottom: -1px;
+}
+
+.lastMessage{
+    margin: 20px 0;
+    padding-left: 20px;
+}
+
+.textarea{
+    margin: 10px 0;
+    margin-left: 20px;
+    border: 1px solid #000;
+    font-size: 16px;
+    padding: 5px;
+    border-radius: 0px;
+    resize: none;
+    overflow: none;
+  }
+
+.textarea:focus {
+    outline: 0;
+    outline-color: transparent;
+    outline-style: none;
+  }
+
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+  }
   
-  /* @keyframes btn-anim2 {
-    0% {
-      top: -100%;
-    }
-    50%,
-    100% {
-      top: 100%;
-    }
-  } */
+  .sendMessageButtons{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  
+  .updateButton{
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      border: solid 1px var(--cor-principal);
+      border-radius: 0px;
+      background-color: white;
+      font-size: 16px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+  }
+  
+  .updateButton:hover{
+      cursor: pointer;
+      border-radius: 20px;
+      /* background-position: left bottom; */
+  }
+  .contactInfo {
+    position: fixed; /* Fixa a div em relação à janela do navegador */
+    top: 50%;       /* Posiciona a parte superior da div no meio da tela verticalmente */
+    left: 50%;      /* Posiciona o lado esquerdo da div no meio da tela horizontalmente */
+    transform: translate(-50%, -50%); /* Desloca a div para trás por metade de sua largura e altura, centralizando-a efetivamente */
+    width: calc(100vw - 100px);   /* Largura da div, ajuste conforme necessário */
+    height: fit-content;  /* Altura da div, ajuste conforme necessário */
+    /* Outras propriedades estilísticas como cor de fundo, bordas, etc., podem ser adicionadas aqui */
+}
+  
+  .contactInfo h2 {
+    margin: 0 0 50px;
+    padding: 0;
+    color: #000;
+    text-align: center;
+  }
+  
+  .contactInfo .userBox {
+    position: relative;
+  }
+  
+  .contactInfo .userBox input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #000;
+    margin: 30px 0;
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    background: transparent;
+  }
+  .contactInfo .userBox label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 16px;
+    color: #000;
+    pointer-events: none;
+    transition: 0.5s;
+  }
+  
+  .contactInfo .userBox input:focus ~ label,
+  .contactInfo .userBox input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #000;
+    /* font-size: 12px; */
+  }
+  
+  .contactInfo button {
+    position: relative;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    padding: 10px 20px;
+    color: var(--cor-principal);
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s;
+    margin-top: 40px;
+    letter-spacing: 4px;
+  }
+  
+  .contactInfo form p {
+    color: red
+  }
+  
+  .contactInfo button:hover {
+    background: var(--cor-principal);
+    cursor: pointer;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px var(--cor-principal), 0 0 25px var(--cor-principal), 0 0 50px var(--cor-principal),
+      0 0 100px var(--cor-principal);
+  }
+  
+  .contactInfo button span {
+    position: absolute;
+    display: block;
+  }
   
   .contactInfo button span:nth-child(3) {
     bottom: 0;
@@ -243,23 +381,4 @@
     }
   }
   
-  /* .contactInfo button span:nth-child(4) {
-    bottom: -100%;
-    left: 0;
-    width: 2px;
-    height: 100%;
-    background: linear-gradient(360deg, transparent, var(--cor-principal));
-    animation: btn-anim4 1s linear infinite;
-    animation-delay: 0.75s;
-  }
-  
-  @keyframes btn-anim4 {
-    0% {
-      bottom: -100%;
-    }
-    50%,
-    100% {
-      bottom: 100%;
-    }
-  } */
-  
+}

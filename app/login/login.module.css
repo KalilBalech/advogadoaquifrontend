@@ -3,11 +3,11 @@
   top: 50%;
   left: 50%;
   width: 400px;
+  max-width: calc(100vw - 20px);
   padding: 40px;
   transform: translate(-50%, -50%);
   background: #fff;
   box-sizing: border-box;
-  /* box-shadow: 0 15px 25px var(--cor-principal); */
   border: 1px solid #000;
   border-radius: 0px;
 }

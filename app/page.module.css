@@ -8,19 +8,17 @@
 
 .leftWindow{
     width: 50%;
-    text-align: center;
+    text-align: left;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
 .leftWindow h1{
-    text-align: left;
     font-size: 48px;
 }
 
 .leftWindow p{
-    text-align: left;
     font-size: 20px;
 }
 
@@ -34,3 +32,39 @@
 .Image{
     border-radius: 20px;
 }
+
+@media (max-width: 700px) {
+    .mainWindow{
+        flex-direction: column;
+        gap: 20px;
+        padding: 0px 20px;
+    }
+
+    .leftWindow{
+        width: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .leftWindow h1{
+        font-size: 36px;
+    }
+
+    .leftWindow p{
+        font-size: 16px;
+    }
+
+    .rightWindow{
+        width: 100%;
+    }
+
+    .Image{
+        aspect-ratio: 6 / 5;
+        width: 100vw;
+        height: auto;
+        border-radius: 0px;
+    }
+}
+  

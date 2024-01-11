@@ -119,12 +119,8 @@ export default function Case(props){
     return(
     <div className={styles.mainWindow}>
         <div key={props.case.id} className={styles.caseDiv}>
-            <div className={styles.caseNumber}><button className={styles.caseNumberButton} onClick={()=>{returnCasePage()}}><span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                {props.case.number}</button>
-            {isLoadingURL && <Loading></Loading>}
+            <div className={styles.caseNumberDiv}><button className={styles.caseNumberButton} onClick={()=>{returnCasePage()}}>{props.case.number}</button>
+                {isLoadingURL && <Loading></Loading>}
             </div>
             {props.case.hasUpdate && <>
                 <p>PROCESSO COM NOVIDADES</p>
@@ -141,8 +137,8 @@ export default function Case(props){
                     {isEditingMessage && <Button text='Alterar mensagem' onClick={handlePutNewMessage}></Button>}
                     </div>
                 </div>
-                {!clicked && <button className={styles.button} onClick={()=>setClicked(true)}>Marcar atualização do processo como visualizada?</button>}
-                {clicked && <button className={styles.button} onClick={()=>handlePutHasUpdate()}>Confirmar?</button>}
+                {!clicked && <button className={styles.updateButton} onClick={()=>setClicked(true)}>Marcar atualização do processo como visualizada?</button>}
+                {clicked && <button className={styles.updateButton} onClick={()=>handlePutHasUpdate()}>Confirmar?</button>}
             </>
             }
             {!props.case.hasUpdate && <>
