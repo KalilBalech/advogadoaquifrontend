@@ -18,6 +18,7 @@ export default function Case(props){
     const [redirectToCaseURLWindow, setRedirectToCaseURLWindow] = useState(false)
     const [isLoadingURL, setIsLoadingURL] = useState(false)
     const [customerPhoneNumber, setCustomerPhoneNumber] = useState('')
+    const [lawyerEmailAuth, setLawyerEmailAuth] = useState('')
     const [customerEmail, setCustomerEmail] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
     const handlePutHasUpdate = ()=>{
@@ -90,6 +91,9 @@ export default function Case(props){
         window.open(`https://wa.me/${customerPhoneNumber}?text=${message}`, '_blank')
         setSendMessageByWhatsappWindow(false)
     }
+    const sendEmailMessage = () =>{
+        
+    }
     const returnCasePage = ()=>{
         if(caseURL == ''){
                 setIsLoadingURL(true)
@@ -115,6 +119,11 @@ export default function Case(props){
             setSendMessageByWhatsappWindow(false)
             setSendMessageByEmailWindow(false)
         }
+    }
+    const closeAllCards = () =>{
+        setRedirectToCaseURLWindow(false)
+        setSendMessageByWhatsappWindow(false)
+        setSendMessageByEmailWindow(false)
     }
     return(
     <div className={styles.mainWindow}>
@@ -147,8 +156,11 @@ export default function Case(props){
             }
 
         </div>
-        {sendMessageByWhatsappWindow && <div className={styles.contactInfo}>
-            <h2>Informações de contato!</h2>
+        {sendMessageByWhatsappWindow && <div className={styles.card}>
+            <div className={styles.cardHeader}>
+                <h2>Informações de contato!</h2>
+                <button type="button" className={styles.xButton} onClick={() => closeAllCards()}>x</button>
+            </div>            
             <div className={styles.userBox}>
                 <input
                 type="text"
@@ -159,7 +171,7 @@ export default function Case(props){
                 <label>Cliente não especificado. Qual o whatsApp dele?</label>
             </div>
             <p>{errorMessage}</p>
-            <button type="submit" onClick={()=>{sendWhatsAppMessage()}}>
+            <button type="submit" className={styles.submitButton} onClick={()=>{sendWhatsAppMessage()}}>
                 <span></span>
                 <span></span>
                 <span></span>
@@ -168,14 +180,17 @@ export default function Case(props){
             </button>
         </div>
         }
-        {sendMessageByEmailWindow && <div className={styles.contactInfo}>
-            <h2>Informações de contato!</h2>
+        {sendMessageByEmailWindow && <div className={styles.card}>
+            <div className={styles.cardHeader}>
+                <h2>Informações de contato!</h2>
+                <button type="button" className={styles.xButton} onClick={() => closeAllCards()}>x</button>
+            </div>
             {props.lawyer.emailAuth==null &&
             <div className={styles.userBox}>
                 <input
                 type="text"
-                value={customerPhoneNumber}
-                onChange={(e) => setCustomerPhoneNumber(e.target.value)}
+                value={lawyerEmailAuth}
+                onChange={(e) => setLawyerEmailAuth(e.target.value)}
                 required
                 />
                 <label>A autorização para uso do seu email ainda não foi fornecida</label>
@@ -191,7 +206,7 @@ export default function Case(props){
                 <label>Cliente não especificado. Qual o email dele?</label>
             </div>
             <p>{errorMessage}</p>
-            <button type="submit" onClick={()=>{sendWhatsAppMessage()}}>
+            <button type="submit" className={styles.submitButton} onClick={()=>{sendEmailMessage()}}>
                 <span></span>
                 <span></span>
                 <span></span>
@@ -200,9 +215,12 @@ export default function Case(props){
             </button>
         </div>
         }
-        {redirectToCaseURLWindow && <div className={styles.contactInfo}>
-            <h2>Ir à página do processo?</h2>
-            <button type="submit" onClick={()=>{
+        {redirectToCaseURLWindow && <div className={styles.card}>
+            <div className={styles.cardHeader}>
+                <h2>Ir à página do processo?</h2>
+                <button type="button" className={styles.xButton} onClick={() => closeAllCards()}>x</button>
+            </div>      
+            <button type="submit" className={styles.submitButton} onClick={()=>{
                 window.open(caseURL, '_blank')
                 setRedirectToCaseURLWindow(false)
             }}>

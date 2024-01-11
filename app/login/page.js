@@ -15,7 +15,6 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    console.log("ENTROU NA PAGINA DE LOGIN")
     console.log("BASE URL: " + BASE_URL)
     if (localStorage.getItem("token")) {
       const tokenReqData = {
@@ -29,7 +28,7 @@ export default function Login() {
         },
       })
       .then((response) => {
-        router.push("/lawyer");
+        router.push("/processos");
       })
       .catch((error) => {
         console.log("Token inválido: ",error)
@@ -62,7 +61,7 @@ export default function Login() {
         localStorage.setItem("lawyerID", lawyerID);
         localStorage.removeItem("personalID");
 
-        router.push("/lawyer");
+        router.push("/processos");
       })
       .catch((error) => {
         if (error.response == undefined) {
