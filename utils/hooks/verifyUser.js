@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 const useAuth = () => {
   const router = useRouter();
@@ -27,7 +27,7 @@ const useAuth = () => {
           router.push('/login');
         });
     }
-  }); // Dependências do useEffect
+  }, []); // Dependências do useEffect
 
   // ... você pode retornar qualquer coisa que seja necessária fora deste hook
 };

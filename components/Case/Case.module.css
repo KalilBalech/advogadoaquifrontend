@@ -10,15 +10,42 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    width: 600px;
+    width: 560px;
     max-width: 100%;
-    padding-left: 10px;
+    padding: 10px 30px;
+    background-color: var(--secondary-color);
+    border: solid 1px var(--tertiary-color);
+    border-radius: 20px;
 }
 
-.caseNumberDiv{
+.caseDiv:hover{
+    cursor: pointer;
+    border: solid 1px var(--main-color);
+}
+
+.caseNameAndUpdateMessage{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 24px;
+}
+
+.caseName{
+  color: black;
+}
+
+.updateMessage{
+  color: var(--main-color);
+}
+
+.iconAndInfoDiv{
     display: flex;
     flex-direction: row;
-    gap: 20px
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    font-size: 20px;
 }
 
 .caseNumberButton{

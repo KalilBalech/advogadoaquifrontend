@@ -1,9 +1,10 @@
-.mainHeader {
+.headerDiv {
   padding: 25px 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--cor-principal);
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
 }
 
 .logo {
@@ -28,8 +29,20 @@
   gap: 25px;
 }
 
+.modeDiv{
+  position: sticky;
+  top: 0;
+  align-self: center;
+  background-color: var(--main-color);
+  color: white;
+  padding: 10px 80px;
+  font-size: 24px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
 @media (max-width: 700px) {
-  .mainHeader {
+  .headerDiv {
     padding: 10px 10px;
   }
   .logo {

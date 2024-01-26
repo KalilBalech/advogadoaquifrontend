@@ -69,7 +69,7 @@ export default function Lawyer() {
     } else {
       router.push("/");
     }
-  });
+  }, []);
   return (
   <>
     <body>

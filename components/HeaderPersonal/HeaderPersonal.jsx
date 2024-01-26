@@ -11,12 +11,13 @@ import exitIcon from '@/public/exitIcon.svg'
 export default function HeaderPersonal(props){
     const router = useRouter();
     const handleLogout = ()=>{
+        console.log("vai dar logout")
         localStorage.removeItem('token')
         localStorage.removeItem('lawyerID')
         router.push("/");
     }
-    return (
-        <div className={styles.mainHeader}>
+    return (<>
+        <div className={styles.headerDiv}>
             <Link href="/" className={styles.logo}><Image alt='AA Logo' src={AAlogo} height='80' width='80'/></Link>
             <div className={styles.navigationLinks}>
                 <HeaderLink href='/clientes' active={true}>Clientes</HeaderLink>
@@ -28,5 +29,9 @@ export default function HeaderPersonal(props){
                 <HeaderIcon text='Logout' href="/" alt='Icone de logout' src={exitIcon} onClick={()=>{handleLogout();}}></HeaderIcon>
             </div>
         </div>
+        <div className={styles.modeDiv}>
+            Pessoal
+        </div>
+    </>
     )
 }
