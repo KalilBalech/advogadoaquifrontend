@@ -1,4 +1,4 @@
-import styles from './AuthHeader.module.css'
+import styles from './HeaderPersonal.module.css'
 import Link from 'next/link'
 import LinkBorderButton from '../LinkBorderButton/LinkBorderButton'
 import LinkButton from '../LinkButton/LinkButton'

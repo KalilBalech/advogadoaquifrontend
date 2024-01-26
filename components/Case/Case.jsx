@@ -134,7 +134,7 @@ export default function Case(props){
             </div>
             {props.case.hasUpdate && <>
                 <p>PROCESSO COM NOVIDADES</p>
-                <p>&#128521; Mensagem sugerida para o cliente: </p>
+                <p>&#128073; Mensagem sugerida para o cliente: </p>
                 {!isEditingMessage && <p className={styles.lastMessage}>{message}</p>}
                 {isEditingMessage && <textarea autoFocus value={message} onChange={(event) => setMessage(event.target.value)} className={styles.textarea} rows='10' cols='60' spellCheck="false"/>}
                 <div className={styles.buttons}>
@@ -157,7 +157,7 @@ export default function Case(props){
             }
 
         </div>
-        {sendMessageByWhatsappWindow && <div className={styles.card}>
+        {sendMessageByWhatsappWindow && props.case.customerID == null && <div className={styles.card}>
             <div className={styles.cardHeader}>
                 <h2>Informações de contato!</h2>
                 <button type="button" className={styles.xButton} onClick={() => closeAllCards()}>x</button>
@@ -197,7 +197,7 @@ export default function Case(props){
                 <label>A autorização para uso do seu email ainda não foi fornecida</label>
             </div>
             }
-            <div className={styles.userBox}>
+            {props.case.customerID == null && <div className={styles.userBox}>
                 <input
                 type="text"
                 value={customerEmail}
@@ -205,7 +205,7 @@ export default function Case(props){
                 required
                 />
                 <label>Cliente não especificado. Qual o email dele?</label>
-            </div>
+            </div>}
             <p>{errorMessage}</p>
             <button type="submit" className={styles.submitButton} onClick={()=>{sendEmailMessage()}}>
                 <span></span>

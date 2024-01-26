@@ -34,13 +34,13 @@ export default function Login() {
         console.log("Token inválido: ",error)
       });
     }
-  }, []);
+  });
 
   const handleLogin = async (event) => {
     event.preventDefault();
     setErrorMessage("");
     const requestData = {
-      email: email.toLowerCase(),
+      email,
       password,
     };
     axios
@@ -61,7 +61,7 @@ export default function Login() {
         localStorage.setItem("lawyerID", lawyerID);
         localStorage.removeItem("personalID");
 
-        router.push("/processos");
+        router.push("/clientes");
       })
       .catch((error) => {
         if (error.response == undefined) {
@@ -85,7 +85,7 @@ export default function Login() {
             <input
               type="text"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value.toLowerCase())}
               required
             />
             <label>Email</label>

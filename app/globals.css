@@ -1,6 +1,7 @@
 :root {
-  --cor-principal: #820AD1;
-  --cor-secundaria: #048ABF;
+  --main-color: #820AD1;
+  --secondary-color: #f0f0f0;
+  --tertiary-color: #bababa;
 }
 
 *{

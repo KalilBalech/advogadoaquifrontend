@@ -12,3 +12,40 @@
     box-shadow: 2px 2px 8px var(--cor-principal);
     cursor: pointer;
 }
+
+.borderButton{
+    padding: 10px 20px;
+    border: solid 1px var(--cor-principal);
+    border-radius: 0px;
+    background-color: white;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.borderButton:hover{
+    box-shadow: 2px 2px 8px var(--cor-principal);
+    cursor: pointer;
+}
+
+.whatsapp{
+    padding: 20px 40px;
+    border: none;
+    border-radius: 100px;
+    background-color: white;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.whatsapp:hover{
+    box-shadow: 2px 2px 8px var(--cor-principal);
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    .button{
+        padding: 10px 10px;
+    }
+    .borderButton{
+        padding: 10px 10px;
+    }
+}

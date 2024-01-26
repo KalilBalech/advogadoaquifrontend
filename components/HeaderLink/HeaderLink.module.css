@@ -1,0 +1,29 @@
+.blackStyle{
+    font-size: 24px;
+    color: black;
+    text-decoration: none;
+    border: none;
+}
+
+.blackStyle:hover{
+    cursor: pointer;
+}
+
+.purpleStyle{
+    font-size: 24px;
+    color: var(--main-color);
+    text-decoration: none;
+    border-bottom: solid 1px var(--main-color);
+    padding-bottom: 10px;
+    margin-bottom: -11px;
+}
+
+.purpleStyle:hover{
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    .blackStyle{
+        padding: 10px 10px;
+    }
+}

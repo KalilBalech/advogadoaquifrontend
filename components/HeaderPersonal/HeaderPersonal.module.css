@@ -1,0 +1,48 @@
+.mainHeader {
+  padding: 25px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--cor-principal);
+}
+
+.logo {
+  color: #000;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 6vw, 1.7rem);
+  text-decoration: none;
+}
+
+.navigationLinks {
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.navigationIcons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+
+@media (max-width: 700px) {
+  .mainHeader {
+    padding: 10px 10px;
+  }
+  .logo {
+    color: #000;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+  }
+  .navigationLinks {
+    gap: 10px;
+  }
+
+  .navigationIcons {
+    gap: 10px;
+  }
+}

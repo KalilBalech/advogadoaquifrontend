@@ -1,0 +1,24 @@
+.mainWindow{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 50px;
+}
+
+.mainWindow ul{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+@media (max-width: 700px) {
+    .mainWindow{
+        gap: 10px;
+        padding: 20px 10px;
+    }
+    
+    .mainWindow ul{
+        gap: 10px;
+    }
+}

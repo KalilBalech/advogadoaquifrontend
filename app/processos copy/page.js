@@ -7,7 +7,7 @@ import Case from "@/components/Case/Case";
 import { useRouter } from "next/navigation";
 
 
-export default function LawyerCases() {
+export default function Lawyer() {
     const router = useRouter();
     const BASE_URL = process.env.BASE_URL;
     const [cases, setCases] = useState([])
