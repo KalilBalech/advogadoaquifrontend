@@ -3,6 +3,7 @@
   --secondary-color: #f0f0f0;
   --tertiary-color: #bababa;
   --placeholder-color: #888888;
+  --lateral-padding: 60px;
 }
 
 *{

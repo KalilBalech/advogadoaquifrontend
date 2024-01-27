@@ -30,7 +30,7 @@ export default function HeaderPersonal(props){
             </div>
         </div>
         <div className={styles.modeDiv}>
-            Pessoal
+                <span className={styles.standardText}>Pessoal</span>
         </div>
     </>
     )

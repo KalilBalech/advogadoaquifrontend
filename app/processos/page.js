@@ -6,12 +6,14 @@ import HeaderPersonal from "@/components/HeaderPersonal/HeaderPersonal";
 import SearchCaseBar from "@/components/SearchCaseBar/SearchCaseBar";
 import Case from "@/components/Case/Case";
 import { useRouter } from "next/navigation";
+import RollingCard from "@/components/RollingCard/RollingCard";
 
 
 export default function LawyerCases() {
     const router = useRouter();
     const BASE_URL = process.env.BASE_URL;
     const [cases, setCases] = useState([])
+    const [selectedCase, setSelectedCase] = useState(null)
     const [lawyer, setLawyer] = useState(null)
     
     useEffect(() => {
@@ -71,18 +73,20 @@ export default function LawyerCases() {
       router.push("/");
     }
   }, []);
+
   return (
   <>
-    <body>
+    <body className={`${styles.body} ${selectedCase!=null && styles.blockScroll}`}>
       <HeaderPersonal></HeaderPersonal>
       <div className={styles.content}>
         <SearchCaseBar></SearchCaseBar>
         <ul>
             {cases.map((caseItem) => (
                 // <li key={caseItem.id}>{caseItem.number}</li>
-                <Case key={caseItem.id} case={caseItem} lawyer={lawyer}></Case>
+                <Case key={caseItem.id} case={caseItem} lawyer={lawyer} setSelectedCase={setSelectedCase}></Case>
                 ))}
         </ul>
+        <RollingCard selectedCase={selectedCase} setSelectedCase={setSelectedCase}></RollingCard>
       </div>
     </body>
     </>

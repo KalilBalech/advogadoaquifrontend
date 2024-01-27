@@ -11,6 +11,10 @@
     border: none;
 }
 
+.button:hover{
+    cursor: pointer;
+}
+
 .input{
     background-color: white;
     border: none;

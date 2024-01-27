@@ -1,0 +1,40 @@
+.tasks{
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    max-width: 100%;
+}
+
+.taskDiv{
+    width: 250px;
+    min-height: 300px;
+    border-radius: 20px;
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.taskTitleDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.title{
+    font-size: 30px;
+}
+
+.addTaskButton{
+    border-radius: 20px;
+    padding: 2px 10px;
+    border: solid 1px var(--tertiary-color);
+}
+
+.addTaskButton:hover{
+    box-shadow: 2px 2px 10px var(--main-color);
+    cursor: pointer;
+}
