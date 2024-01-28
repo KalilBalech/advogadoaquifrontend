@@ -3,6 +3,7 @@
   left: 100vw;
   width: calc(100vw - var(--lateral-padding));
   min-height: 100vh;
+  overflow-y: scroll;
   background-color: var(--secondary-color);
   padding: 30px 45px;
   border-bottom-left-radius: 20px;

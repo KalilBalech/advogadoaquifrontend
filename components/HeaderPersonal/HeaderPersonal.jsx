@@ -18,7 +18,7 @@ export default function HeaderPersonal(props){
     }
     return (<>
         <div className={styles.headerDiv}>
-            <Link href="/" className={styles.logo}><Image alt='AA Logo' src={AAlogo} height='80' width='80'/></Link>
+            <Link href="/" className={styles.logo}><Image alt='AA Logo' src={AAlogo} height='80' width='80' priority/></Link>
             <div className={styles.navigationLinks}>
                 <HeaderLink href='/clientes' active={true}>Clientes</HeaderLink>
                 <HeaderLink href='/processos'>Processos</HeaderLink>
