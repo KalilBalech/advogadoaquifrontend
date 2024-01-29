@@ -47,20 +47,17 @@ export default function LawyerCases() {
   }, []);
 
   return (
-  <>
     <body className={`${styles.body} ${selectedCase!=null ? styles.blockScroll : ''}`}>
       <HeaderPersonal></HeaderPersonal>
       <div className={styles.content}>
         <SearchCaseBar setCases={setCases}></SearchCaseBar>
         <ul>
             {cases.map((caseItem) => (
-                // <li key={caseItem.id}>{caseItem.number}</li>
-                <Case key={caseItem.id} case={caseItem} setSelectedCase={setSelectedCase}></Case>
-                ))}
+              <Case key={caseItem.id} case={caseItem} setSelectedCase={setSelectedCase}></Case>
+            ))}
         </ul>
         <RollingCard selectedCase={selectedCase} setSelectedCase={setSelectedCase}></RollingCard>
       </div>
     </body>
-    </>
   );
 }

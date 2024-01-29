@@ -20,6 +20,7 @@ export default function RollingCard({selectedCase, setSelectedCase}){
     const [caseSuggestedMessage, setCaseSuggestedMessage] = useState(selectedCase && selectedCase.suggestedMessage)
     const [caseTasks, setCaseTasks] = useState(selectedCase && selectedCase.tasks)
     const [selectedTask, setSelectedTask] = useState(null)
+    const [caseLawyers, setCaseLawyers] = useState(null)
 
     const hasPageBeenRendered = useRef({effect1: false, effect2: false, effect3: false})
     // MANIPULAÇÃO DO FRONT END
@@ -107,6 +108,7 @@ export default function RollingCard({selectedCase, setSelectedCase}){
         setCaseTasks(selectedCase && selectedCase.tasks)
         setCaseSuggestedMessage(selectedCase && selectedCase.suggestedMessage)
     }, [selectedCase])
+
         
     return(
         <div className={`${styles.rollingCardDiv} ${selectedCase!=null ? styles.rollingCardIn : ''}`}>
@@ -147,13 +149,13 @@ export default function RollingCard({selectedCase, setSelectedCase}){
                         <p>Tarefas relacionadas ao processo</p>
                     </button>
                     {iscaseTasksOpen && <div className={`${styles.contentHiddenSection}`}>
-                        <CaseTasks className={`${selectedTask ? styles.displayNone : ''}`} caseTasks={selectedCase && caseTasks} setCaseTasks={setCaseTasks} caseID = {selectedCase && selectedCase.id} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
-                        <TaskDetails selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+                        <CaseTasks caseTasks={selectedCase && caseTasks} setCaseTasks={setCaseTasks} caseID = {selectedCase && selectedCase.id} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+                        <TaskDetails selectedCase={selectedCase} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
                     </div>}
                 </div>
                 <div className={styles.arrowInfo}>
                     <button className={styles.headerArrowInfo} onClick={()=>{setIscaseSuggestedMessageOpen(!iscaseSuggestedMessageOpen)}}>
-                        <Image className={iscaseTasksOpen ? styles.imgArrowDown : ''} src={arrowRightIcon} alt='arrowRightIcon' width={20} height={20}></Image>
+                        <Image className={iscaseSuggestedMessageOpen ? styles.imgArrowDown : ''} src={arrowRightIcon} alt='arrowRightIcon' width={20} height={20}></Image>
                         <p>Mensagem sugerida</p>
                     </button>
                     <textarea value={caseSuggestedMessage!=null ? caseSuggestedMessage : ''} placeholder='Só há sugestões de mensagens quando há movimentações no processo' className={`${styles.inputContent} ${!iscaseSuggestedMessageOpen ? styles.inputDisplayNone: ''}`} onChange={(e)=>{setCaseSuggestedMessage(e.target.value)}}/>

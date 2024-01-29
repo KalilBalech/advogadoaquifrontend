@@ -16,7 +16,7 @@
 
 .displayBlock{
     display: block;
-    animation: pop-in 0.5s ease-in-out forwards;
+    /* animation: pop-in 0.5s ease-in-out forwards; */
 }
 
 @keyframes pop-in{
@@ -67,11 +67,13 @@
     font-size: 32px;
     background-color: var(--secondary-color);
     border: none;
+    overflow: visible;
+    color: var(--main-color);
 }
 
-.taskTitleInput:hover{
+.taskTitleInput:focus{
     outline: none;
-    border-bottom: 1px solid var(--tertiary-color);
+    border-bottom: 1px solid black;
 }
 
 .taskDetailsIconAndInfo{
@@ -84,6 +86,10 @@
     background-color: var(--secondary-color);
     border: none;
     font-size: 32px;
+}
+
+.taskDetailDeadlineInput:focus{
+    outline: none;
 }
 
 .taskDetailDeadlineInput::-webkit-calendar-picker-indicator {
@@ -118,4 +124,8 @@
 .taskDescriptionInput:focus{
     outline: none;
     border-bottom: solid 1px black;
+}
+
+.responsibleLawyerOption:focus{
+    outline: none;
 }

@@ -1,6 +1,6 @@
 .headerDiv {
   position: relative;
-  padding: 25px var(--lateral-padding);
+  padding: var(--top-padding) var(--lateral-padding);
   display: flex;
   justify-content: space-between;
   align-items: center;
