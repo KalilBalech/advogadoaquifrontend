@@ -1,5 +1,5 @@
 'on client'
-import styles from './RollingCard.module.css'
+import styles from './CaseDetails.module.css'
 import xIcon from '@/public/xIcon.svg'
 import teamIcon from '@/public/teamIcon.svg'
 import hashtagIcon from '@/public/hashtagIcon.svg'
@@ -17,16 +17,17 @@ export default function RollingCard({selectedCase, setSelectedCase}){
     // MANIPULAÇÃO E ATUALIZAÇÃO DE DADOS
     const [caseName, setCaseName] = useState(selectedCase && selectedCase.name)
     const [caseAnnotation, setCaseAnnotation] = useState(selectedCase && selectedCase.annotation)
-    const [caseSuggestedMessage, setCaseSuggestedMessage] = useState(selectedCase && selectedCase.suggestedMessage)
     const [caseTasks, setCaseTasks] = useState(selectedCase && selectedCase.tasks)
     const [selectedTask, setSelectedTask] = useState(null)
-    const [caseLawyers, setCaseLawyers] = useState(null)
+    const [caseSuggestedMessage, setCaseSuggestedMessage] = useState(selectedCase && selectedCase.suggestedMessage)
+    const [caseLastTrackedFile, setCaseLastTrackedFile] = useState(selectedCase && selectedCase.lastTrackedFile)
 
     const hasPageBeenRendered = useRef({effect1: false, effect2: false, effect3: false})
     // MANIPULAÇÃO DO FRONT END
-    const [iscaseAnnotationOpen, setIscaseAnnotationOpen] = useState(false);
-    const [iscaseTasksOpen, setIscaseTasksOpen] = useState(false);
-    const [iscaseSuggestedMessageOpen, setIscaseSuggestedMessageOpen] = useState(false);
+    const [isCaseAnnotationOpen, setIsCaseAnnotationOpen] = useState(false);
+    const [isCaseTasksOpen, setIsCaseTasksOpen] = useState(false);
+    const [isCaseSuggestedMessageOpen, setIsCaseSuggestedMessageOpen] = useState(false);
+    const [isCaseLastTrackedFileOpen, setIsCaseLastTrackedFileOpen] = useState(false);
     
     const BASE_URL = process.env.BASE_URL;
     const token = localStorage.getItem("token");
@@ -135,32 +136,37 @@ export default function RollingCard({selectedCase, setSelectedCase}){
             </div>
             <div className={styles.arrowInfoSection}>
                 <div className={styles.arrowInfo}>
-                    <button className={styles.headerArrowInfo} onClick={()=>{setIscaseAnnotationOpen(!iscaseAnnotationOpen)}}>
-                        <Image className={iscaseAnnotationOpen ? styles.imgArrowDown : ''} src={arrowRightIcon} alt='arrowRightIcon' width={20} height={20}></Image>
+                    <button className={styles.headerArrowInfo} onClick={()=>{setIsCaseAnnotationOpen(!isCaseAnnotationOpen)}}>
+                        <Image className={isCaseAnnotationOpen ? styles.imgArrowDown : ''} src={arrowRightIcon} alt='arrowRightIcon' width={20} height={20}></Image>
                         <p>Atendimento</p>
                     </button>
-                    {iscaseAnnotationOpen && <div className={styles.contentHiddenSection}>
-                        <textarea value={caseAnnotation!=null ? caseAnnotation : ''} placeholder='Registre o atendimento aqui' className={`${styles.inputContent} ${!iscaseAnnotationOpen ? styles.inputDisplayNone: ''}`} onChange={(e)=>{setCaseAnnotation(e.target.value)}}/>
+                    {isCaseAnnotationOpen && <div className={styles.contentHiddenSection}>
+                        <textarea value={caseAnnotation!=null ? caseAnnotation : ''} placeholder='Registre o atendimento aqui' className={`${styles.inputContent} ${!isCaseAnnotationOpen ? styles.inputDisplayNone: ''}`} onChange={(e)=>{setCaseAnnotation(e.target.value)}}/>
                     </div>}
                 </div>
                 <div className={styles.arrowInfo}>
-                    <button className={styles.headerArrowInfo} onClick={()=>{setIscaseTasksOpen(!iscaseTasksOpen)}}>
-                        <Image className={iscaseTasksOpen ? styles.imgArrowDown : ''} src={arrowRightIcon} alt='arrowRightIcon' width={20} height={20}></Image>
+                    <button className={styles.headerArrowInfo} onClick={()=>{setIsCaseTasksOpen(!isCaseTasksOpen)}}>
+                        <Image className={isCaseTasksOpen ? styles.imgArrowDown : ''} src={arrowRightIcon} alt='arrowRightIcon' width={20} height={20}></Image>
                         <p>Tarefas relacionadas ao processo</p>
                     </button>
-                    {iscaseTasksOpen && <div className={`${styles.contentHiddenSection}`}>
+                    {isCaseTasksOpen && <div className={`${styles.contentHiddenSection}`}>
                         <CaseTasks caseTasks={selectedCase && caseTasks} setCaseTasks={setCaseTasks} caseID = {selectedCase && selectedCase.id} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
                         <TaskDetails selectedCase={selectedCase} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
                     </div>}
                 </div>
                 <div className={styles.arrowInfo}>
-                    <button className={styles.headerArrowInfo} onClick={()=>{setIscaseSuggestedMessageOpen(!iscaseSuggestedMessageOpen)}}>
-                        <Image className={iscaseSuggestedMessageOpen ? styles.imgArrowDown : ''} src={arrowRightIcon} alt='arrowRightIcon' width={20} height={20}></Image>
+                    <button className={styles.headerArrowInfo} onClick={()=>{setIsCaseSuggestedMessageOpen(!isCaseSuggestedMessageOpen)}}>
+                        <Image className={isCaseSuggestedMessageOpen ? styles.imgArrowDown : ''} src={arrowRightIcon} alt='arrowRightIcon' width={20} height={20}></Image>
                         <p>Mensagem sugerida</p>
                     </button>
-                    <textarea value={caseSuggestedMessage!=null ? caseSuggestedMessage : ''} placeholder='Só há sugestões de mensagens quando há movimentações no processo' className={`${styles.inputContent} ${!iscaseSuggestedMessageOpen ? styles.inputDisplayNone: ''}`} onChange={(e)=>{setCaseSuggestedMessage(e.target.value)}}/>
+                    <textarea value={caseSuggestedMessage!=null ? caseSuggestedMessage : ''} placeholder='Só há sugestões de mensagens quando há movimentações no processo' className={`${styles.inputContent} ${!isCaseSuggestedMessageOpen ? styles.inputDisplayNone: ''}`} onChange={(e)=>{setCaseSuggestedMessage(e.target.value)}}/>
                 </div>
                 <div className={styles.arrowInfo}>
+                    <button className={styles.headerArrowInfo} onClick={()=>{setIsCaseLastTrackedFileOpen(!isCaseLastTrackedFileOpen)}}>
+                        <Image className={isCaseLastTrackedFileOpen ? styles.imgArrowDown : ''} src={arrowRightIcon} alt='arrowRightIcon' width={20} height={20}></Image>
+                        <p>Última publicação</p>
+                    </button>
+                    <textarea value={caseLastTrackedFile!=null ? caseLastTrackedFile : ''} placeholder='A última publicação não foi registrada' className={`${styles.inputContent} ${!isCaseLastTrackedFileOpen ? styles.inputDisplayNone: ''}`} onChange={(e)=>{setCaseLastTrackedFile(e.target.value)}}/>
                 </div>
             </div>
         </div>

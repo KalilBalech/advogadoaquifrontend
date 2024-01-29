@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import axios from "axios";
 import HeaderPersonal from "@/components/HeaderPersonal/HeaderPersonal";
-import SearchCaseBar from "@/components/SearchCaseBar/SearchCaseBar";
-import Case from "@/components/Case/Case";
+import SearchBar from "@/components/SearchBar/SearchBar";
+import CaseCard from "@/components/CaseCard/CaseCard";
 import { useRouter } from "next/navigation";
-import RollingCard from "@/components/RollingCard/RollingCard";
+import CaseDetails from "@/components/CaseDetails/CaseDetails";
 
 
 export default function LawyerCases() {
@@ -50,13 +50,13 @@ export default function LawyerCases() {
     <body className={`${styles.body} ${selectedCase!=null ? styles.blockScroll : ''}`}>
       <HeaderPersonal></HeaderPersonal>
       <div className={styles.content}>
-        <SearchCaseBar setCases={setCases}></SearchCaseBar>
+        <SearchBar setModel={setCases} model='case'></SearchBar>
         <ul>
             {cases.map((caseItem) => (
-              <Case key={caseItem.id} case={caseItem} setSelectedCase={setSelectedCase}></Case>
+              <CaseCard key={caseItem.id} case={caseItem} setSelectedCase={setSelectedCase}></CaseCard>
             ))}
         </ul>
-        <RollingCard selectedCase={selectedCase} setSelectedCase={setSelectedCase}></RollingCard>
+        <CaseDetails selectedCase={selectedCase} setSelectedCase={setSelectedCase}></CaseDetails>
       </div>
     </body>
   );

@@ -1,7 +1,7 @@
 import styles from './CaseTasks.module.css'
 import plusIcon from '@/public/plusIcon.svg'
 import Image from 'next/image'
-import Task from '@/components/Task/Task'
+import TaskCard from '@/components/TaskCard/TaskCard'
 import axios from 'axios'
 import { useEffect } from 'react'
 import decodeJWT from '@/utils/decodeToken'
@@ -66,7 +66,7 @@ export default function CaseTasks({caseTasks, setCaseTasks, caseID, selectedTask
                 <ul>
                     {caseTasks && caseTasks.map((task) => {
                         if(task.status === 'TODO'){
-                            return <Task key={task.id} 
+                            return <TaskCard key={task.id} 
                                             task={task}
                                             setSelectedTask={setSelectedTask} 
                                             setCaseTasks={setCaseTasks}
@@ -84,7 +84,7 @@ export default function CaseTasks({caseTasks, setCaseTasks, caseID, selectedTask
                 <ul>
                     {caseTasks && caseTasks.map((task) => {
                         if(task.status === 'DOING'){
-                            return <Task key={task.id} 
+                            return <TaskCard key={task.id} 
                                             task={task} 
                                             setSelectedTask={setSelectedTask} 
                                             setCaseTasks={setCaseTasks}
@@ -102,7 +102,7 @@ export default function CaseTasks({caseTasks, setCaseTasks, caseID, selectedTask
                 <ul>
                     {caseTasks && caseTasks.map((task) => {
                         if(task.status === 'DONE'){
-                            return <Task key={task.id} 
+                            return <TaskCard key={task.id} 
                                         task={task} 
                                         setSelectedTask={setSelectedTask} 
                                         setCaseTasks={setCaseTasks}

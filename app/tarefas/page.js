@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import axios from "axios";
 import HeaderPersonal from "@/components/HeaderPersonal/HeaderPersonal";
-import Case from "@/components/Case/Case";
+import CaseCard from "@/components/CaseCard/CaseCard";
 import { useRouter } from "next/navigation";
 
 
@@ -79,7 +79,7 @@ export default function Lawyer() {
         <ul>
             {cases.map((caseItem) => (
                 // <li key={caseItem.id}>{caseItem.number}</li>
-                <Case key={caseItem.id} case={caseItem} lawyer={lawyer}></Case>
+                <CaseCard key={caseItem.id} case={caseItem} lawyer={lawyer}></CaseCard>
                 ))}
         </ul>
       </div>

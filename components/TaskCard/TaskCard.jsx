@@ -1,4 +1,4 @@
-import styles from './Task.module.css'
+import styles from './TaskCard.module.css'
 import clockIcon from '@/public/clockIcon.svg'
 import userIcon from '@/public/userIcon.svg'
 import xIcon from '@/public/xIcon.svg'

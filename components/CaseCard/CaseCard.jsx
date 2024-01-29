@@ -1,5 +1,5 @@
 "use client";
-import styles from './Case.module.css'
+import styles from './CaseCard.module.css'
 import { useState, useEffect } from 'react';
 import axios from 'axios'
 import MyIcon from '../MyIcon/MyIcon';

@@ -1,37 +1,47 @@
-import styles from './SearchCaseBar.module.css'
+import styles from './SearchBar.module.css'
 import Image from 'next/image'
 import searchIcon from '@/public/searchIcon.svg'
 import axios from 'axios'
 import { useState, useEffect } from 'react';
 
-export default function SearchCaseBar({setCases}){
+export default function SearchCaseBar({setModel, model}){
+
     const BASE_URL = process.env.BASE_URL;
+    let FILTER_URL, GET_URL;
+    if(model == 'case'){
+        FILTER_URL = `${BASE_URL}/case/number`
+        GET_URL = `${BASE_URL}/case/lawyer/`
+    }
+    else if(model == 'customer'){
+        FILTER_URL = `${BASE_URL}/customer/nameStarts`
+        GET_URL = `${BASE_URL}/customer/lawyer/`
+    }
+
     const token = localStorage.getItem('token')
     const headers = {
         Accept: "*/*",
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
     }
-    const [number, setNumber] = useState('')
+    const [caseNumberOrCustomerCase, setCaseNumberOrCustomerCase] = useState('')
 
     const [timer, setTimer] = useState(null);
 
-    const filterCaseByNumber = () => {
-        // Substitua pela sua URL de API e lógica de chamada
-        axios.get(`${BASE_URL}/case/number/${number}/`, {headers: headers})
+    const filterCaseByNumberOrCustomerByName = () => {
+        axios.get(`${FILTER_URL}/${caseNumberOrCustomerCase}/`, {headers: headers})
         .then(response=>{
-            console.log("FILTROU OS CASOS COM SUCESSO IRRÁAAAAA")
-            setCases(response.data)
+            console.log("FILTROU OS MODELS COM SUCESSO IRRÁAAAAA: ", response)
+            setModel(response.data)
         })
         .catch(error => console.log("Ocorreu algum erro ao filtrar processos pelo numero: ", error))
     };
 
-    const getAllLawyerCases = () => {
+    const getAllLawyerCasesOrCustomers = () => {
         axios
-        .get(`${BASE_URL}/case/lawyer/`, {headers: headers})
+        .get(GET_URL, {headers: headers})
         .then((response) => {
             console.log("PEGOU TODOS OS CASOS")
-            setCases(response.data);
+            setModel(response.data);
         })
         .catch((error) => {
           console.log("Ocorreu algum erro na busca de processos: ", error);
@@ -44,11 +54,11 @@ export default function SearchCaseBar({setCases}){
 
         // Configurar um novo timer
         const newTimer = setTimeout(() => {
-            if (number){
-                filterCaseByNumber();
+            if (caseNumberOrCustomerCase){
+                filterCaseByNumberOrCustomerByName();
             }
             else{
-                getAllLawyerCases()
+                getAllLawyerCasesOrCustomers()
             }
         }, 500); // 1/2 segundo de atraso
 
@@ -56,24 +66,14 @@ export default function SearchCaseBar({setCases}){
 
         // Função de limpeza que será chamada quando o componente for desmontado
         return () => clearTimeout(timer);
-    }, [number]);
+    }, [caseNumberOrCustomerCase]);
 
-    // const filterCasesByNumber = (newNumber)=>{
-    //     if(newNumber != ''){
-    //         axios.get(`${BASE_URL}/case/number/${newNumber}/`, {headers: headers})
-    //         .then(response=>{
-    //             setCases(response.data)
-    //             setNumber(newNumber)
-    //         })
-    //         .catch(error => console.log("Ocorreu algum erro ao filtrar processos pelo numero: ", error))
-    //     }
-    // }
     return(
         <div className={styles.searchBarDiv}>
             <button className={styles.button}>
                 <Image alt='search icon' src={searchIcon} width='25' height='25'></Image>
             </button>
-            <input type="text" placeholder='Número do processo' className={styles.input} value={number} onChange={(e)=>setNumber(e.target.value)}/>
+            <input type="text" placeholder={model == 'case' ? 'Número do processo' : 'Nome do cliente'} className={styles.input} value={caseNumberOrCustomerCase} onChange={(e)=>setCaseNumberOrCustomerCase(e.target.value)}/>
         </div>
     )
 }
