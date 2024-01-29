@@ -79,7 +79,6 @@ export default function LawyerCases() {
         <SearchCaseBar></SearchCaseBar>
         <ul>
             {customers.map((customer) => (
-                // <li key={caseItem.id}>{caseItem.number}</li>
                 <Customer key={customer.id} customer={customer} lawyer={lawyer}></Customer>
                 ))}
         </ul>

@@ -1,0 +1,121 @@
+.taskDetailsDiv{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    min-width: 920px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    border-radius: 20px;
+    font-size: 32px;
+    border: 1px solid var(--tertiary-color);
+    margin: auto;
+    display: none;
+}
+
+.displayBlock{
+    display: block;
+    animation: pop-in 0.5s ease-in-out forwards;
+}
+
+@keyframes pop-in{
+    0%{
+        opacity: 0;
+        transform: scale(.8);
+    }
+    100%{
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.taskDetailsHeader{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.arrowLeftIcon{
+    border: none;
+}
+
+.arrowLeftIcon:hover{
+    cursor: pointer;
+    animation: shake 0.3s ease-in-out forwards;
+}
+
+@keyframes shake {
+    50%{
+        /* transform: rotate(30deg); */
+        transform: translate(-10px);
+    }
+    /* 75%{
+        transform: rotate(-30deg);
+    } */
+    100%{
+        /* transform: rotate(0); */
+        transform: translate(0);
+    }
+}
+
+.taskTitleInput{
+    margin: auto;
+    text-align: center;
+    font-size: 32px;
+    background-color: var(--secondary-color);
+    border: none;
+}
+
+.taskTitleInput:hover{
+    outline: none;
+    border-bottom: 1px solid var(--tertiary-color);
+}
+
+.taskDetailsIconAndInfo{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.taskDetailDeadlineInput{
+    background-color: var(--secondary-color);
+    border: none;
+    font-size: 32px;
+}
+
+.taskDetailDeadlineInput::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.selectLawyer{
+    background-color: var(--secondary-color);
+    border: none;
+    font-size: 32px;
+}
+
+.selectLawyer:hover{
+    outline: none;
+}
+
+.taskDescriptionInput{
+    background-color: var(--secondary-color);
+    font-size: 32px;
+    border: none;
+    border-bottom: solid 1px var(--tertiary-color);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    display: block;
+    margin: auto;
+    margin-top: 50px;
+    width: 100%;
+}
+
+.taskDescriptionInput:focus{
+    outline: none;
+    border-bottom: solid 1px black;
+}

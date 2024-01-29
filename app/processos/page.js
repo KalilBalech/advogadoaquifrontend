@@ -12,35 +12,27 @@ import RollingCard from "@/components/RollingCard/RollingCard";
 export default function LawyerCases() {
     const router = useRouter();
     const BASE_URL = process.env.BASE_URL;
+    const token = localStorage.getItem('token')
     const [cases, setCases] = useState([])
     const [selectedCase, setSelectedCase] = useState(null)
+
+    const headers = {
+      Accept: "*/*",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    }
     
     useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (localStorage.getItem("token")) {
+    if (token) {
       const tokenReqData = { token };
       // VERIFICA SE A PESSOA TEM PERMISSAO DE ACESSO À PAGINA
       axios
-        .post(`${BASE_URL}/lawyer/token/verify/`, tokenReqData, {
-          headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
-          },
-        })
+        .post(`${BASE_URL}/lawyer/token/verify/`, tokenReqData, {headers: headers})
         .then((response) => {
             // PEGA OS PROCESSOS DO LAWYER
           axios
-            .get(`${BASE_URL}/case/lawyer/`, {
-              headers: {
-                Accept: "*/*",
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + token,
-              },
-            })
-            .then((response) => {
-              console.log("response DOS PROCESSOS NA PAGINA DE PROCESSOS: ", response);
-              setCases(response.data);
-            })
+            .get(`${BASE_URL}/case/lawyer/`, {headers: headers})
+            .then((response) => {setCases(response.data);})
             .catch((error) => {
               console.log("Ocorreu algum erro na busca de processos: ", error);
             });
@@ -59,7 +51,7 @@ export default function LawyerCases() {
     <body className={`${styles.body} ${selectedCase!=null ? styles.blockScroll : ''}`}>
       <HeaderPersonal></HeaderPersonal>
       <div className={styles.content}>
-        <SearchCaseBar></SearchCaseBar>
+        <SearchCaseBar setCases={setCases}></SearchCaseBar>
         <ul>
             {cases.map((caseItem) => (
                 // <li key={caseItem.id}>{caseItem.number}</li>

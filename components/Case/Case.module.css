@@ -12,7 +12,7 @@
 
 .caseDiv:hover{
     cursor: pointer;
-    box-shadow: 1px 1px 5px var(--main-color);
+    border: solid 1px black;
 }
 
 .caseNameAndUpdateMessage{
