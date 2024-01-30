@@ -5,6 +5,10 @@ import teamIcon from '@/public/teamIcon.svg'
 import hashtagIcon from '@/public/hashtagIcon.svg'
 import userIcon from '@/public/userIcon.svg'
 import arrowRightIcon from '@/public/arrowRightIcon.svg'
+import whatsappIcon from '@/public/whatsappIcon.svg'
+import whatsappIconColor from '@/public/whatsappIconColor.svg'
+import emailIcon from '@/public/emailIcon.svg'
+import emailIconColor from '@/public/emailIconColor.svg'
 import Image from 'next/image'
 import CaseTasks from '@/components/CaseTasks/CaseTasks'
 import { useEffect, useRef, useState } from 'react'
@@ -110,6 +114,24 @@ export default function RollingCard({selectedCase, setSelectedCase}){
         setCaseSuggestedMessage(selectedCase && selectedCase.suggestedMessage)
     }, [selectedCase])
 
+    const sendWhatsAppMessage = ()=>{
+        if(!selectedCase.customers[0]){
+            alert('Não há cliente definido para esse processo')
+            return
+        }
+        if(!selectedCase.customers[0].phoneNumber){
+            alert('Não há celular definido para o cliente desse processo')
+            return
+        }
+        let customerPhoneNumber = selectedCase.customers[0].phoneNumber
+        let text = caseSuggestedMessage
+        window.open(`https://api.whatsapp.com/send?phone=${customerPhoneNumber}&text=${text}`, '_blank');
+    }
+
+    const sendEmailMessage = ()=>{
+
+    }
+
         
     return(
         <div className={`${styles.rollingCardDiv} ${selectedCase!=null ? styles.rollingCardIn : ''}`}>
@@ -159,7 +181,23 @@ export default function RollingCard({selectedCase, setSelectedCase}){
                         <Image className={isCaseSuggestedMessageOpen ? styles.imgArrowDown : ''} src={arrowRightIcon} alt='arrowRightIcon' width={20} height={20}></Image>
                         <p>Mensagem sugerida</p>
                     </button>
-                    <textarea value={caseSuggestedMessage!=null ? caseSuggestedMessage : ''} placeholder='Só há sugestões de mensagens quando há movimentações no processo' className={`${styles.inputContent} ${!isCaseSuggestedMessageOpen ? styles.inputDisplayNone: ''}`} onChange={(e)=>{setCaseSuggestedMessage(e.target.value)}}/>
+                    {isCaseSuggestedMessageOpen && <div className={`${styles.contentHiddenSection} ${styles.displayFlexColumn}`}>
+                    <textarea value={caseSuggestedMessage!=null ? caseSuggestedMessage : ''} 
+                        placeholder='Só há sugestões de mensagens quando há movimentações no processo' 
+                        className={`${styles.inputContent}`} 
+                        onChange={(e)=>{setCaseSuggestedMessage(e.target.value)}}/>
+                    <div className={styles.messageButtonsDiv}>
+                        <button className={styles.messageButton} onClick={()=>sendWhatsAppMessage()}>
+                            <Image alt='whatsappIcon' src={whatsappIcon} width={40} height={40} className={styles.messageIcon}/>
+                            <Image alt='whatsappIconColor' src={whatsappIconColor} width={40} height={40} className={styles.messageIconColor}/>
+                        </button>
+                        <button className={styles.messageButton} onClick={()=>sendEmailMessage()}>
+                            <Image alt='emailIcon' src={emailIcon} width={40} height={40} className={styles.messageIcon}/>
+                            <Image alt='emailIconColor' src={emailIconColor} width={40} height={40} className={styles.messageIconColor}/>
+                        </button>
+                    </div>
+                    </div>
+                    }
                 </div>
                 <div className={styles.arrowInfo}>
                     <button className={styles.headerArrowInfo} onClick={()=>{setIsCaseLastTrackedFileOpen(!isCaseLastTrackedFileOpen)}}>
