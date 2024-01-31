@@ -16,7 +16,7 @@ import DetailsSideBarArrowInfo from '../DetailsSideBarArrowInfo/DetailsSideBarAr
 import DetailsSideCardDiv from '../DetailsSideCardDiv/DetailsSideCardDiv'
 
 import updateCaseName from '@/utils/API/updateCaseName'
-import updateCaseAnnotation from '@/utils/API/updateCaseAnnotation'
+import putCaseAnnotation from '@/utils/API/putCaseAnnotation'
 import updateCaseSuggestedMessage from '@/utils/API/updateCaseSuggestedMessage'
 import updateCaseLastTrackedFile from '@/utils/API/updateCaseLastTrackedFile'
 
@@ -70,7 +70,7 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
     }, [caseTasks])
 
     useEffect(()=>{
-        if(selectedCase && !justLoadedSelectedCase.current){
+        if(selectedCase){
             updateCaseName(selectedCase.id, caseName)
             setSelectedCase(selectedCase=>{return {...selectedCase, name: caseName}})
         }
@@ -79,7 +79,7 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
     useEffect(()=>{
         // Só atualiza na base de dados se o novo caseAnnotation for da edição
         if(selectedCase && !justLoadedSelectedCase.current){
-            updateCaseAnnotation(selectedCase.id, caseAnnotation)
+            putCaseAnnotation(selectedCase.id, caseAnnotation)
             setSelectedCase(selectedCase=>{return {...selectedCase, annotation: caseAnnotation}})
         }
     }, [caseAnnotation])
@@ -92,7 +92,7 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
     }, [caseSuggestedMessage])
 
     useEffect(()=>{
-        if(selectedCase){
+        if(selectedCase && !justLoadedSelectedCase.current){
             updateCaseLastTrackedFile(selectedCase.id, caseLastTrackedFile)
             setSelectedCase(selectedCase=>{return {...selectedCase, lastTrackedFile: caseLastTrackedFile}})
         }

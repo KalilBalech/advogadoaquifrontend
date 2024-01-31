@@ -21,7 +21,7 @@ export default function CustomersTab() {
     if (selectedCustomer) {
       console.log("O selectedCustomer atualizado: ", selectedCustomer)
       const updatedCustomers = customers.map(customerItem => 
-        customerItem.id === selectedCase.id ? selectedCase : customerItem
+        customerItem.id === selectedCustomer.id ? selectedCustomer : customerItem
       );
       setCustomers(updatedCustomers);
       console.log("O CUSTOMERS foi alterado porque o SELECTEDCUSTOMER foi alterado: ", customers)
@@ -54,7 +54,7 @@ export default function CustomersTab() {
               <CustomerCard key={customer.id} customer={customer} setSelectedCustomer={setSelectedCustomer}></CustomerCard>
             ))}
         </ul>
-        <CustomerDetailsSideCard selectedModel={selectedCustomer} setSelectedModel={setSelectedCustomer}></CustomerDetailsSideCard>
+        <CustomerDetailsSideCard selectedCustomer={selectedCustomer} setSelectedCustomer={setSelectedCustomer}></CustomerDetailsSideCard>
       </div>
     </body>
   );

@@ -1,0 +1,79 @@
+.caseItemDiv{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 20px 30px;
+    border: 1px solid var(--tertiary-color);
+    background-color: var(--secondary-color);
+    border-radius: 20px;
+    margin: 10px 60px;
+}
+
+.caseItemDiv:hover{
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.standardView{
+    border: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+}
+
+.standardView:hover{
+    cursor: pointer;
+}
+
+.header{
+    display: flex;
+    flex: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 24px;
+    width: 100%;
+}
+
+.name{
+    color: var(--main-color);
+}
+
+
+.number{
+    font-size: 20px;
+}
+
+.hiddenSection{
+    width: 100%;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.hiddenSection:focus{
+    outline: none;
+}
+
+.atendimentop{
+    font-size: 24px;
+}
+
+.inputContent {
+    background-color: var(--secondary-color);
+    border: none;
+    border-radius: 20px;
+    width: 100%;
+    padding: 40px;
+    font-size: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .inputContent:focus{
+    outline: none;
+    border: 1px solid var(--tertiary-color);
+  }

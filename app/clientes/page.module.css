@@ -8,6 +8,10 @@
     padding: 20px 50px;
 }
 
+.blockScroll{
+    overflow: hidden;
+}
+
 .content ul{
     display: flex;
     flex-direction: column;

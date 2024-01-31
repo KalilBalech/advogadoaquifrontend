@@ -1,0 +1,80 @@
+.taskButton{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    overflow: hidden;
+    border: none;
+    border-left: 1px solid var(--tertiary-color);
+}
+
+.taskButton:hover{
+    border-left: 1px solid black;
+    cursor: pointer;
+}
+
+.displayNone{
+    display: none;
+}
+
+.taskButtonHeader{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.iconButton{
+    border: none;
+    cursor: pointer;
+}
+
+.icon{
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+
+.xButton:hover .xIcon{
+    animation: left-rotate 0.3s ease-in-out forwards;
+}
+
+@keyframes left-rotate {
+    50%{
+        rotate: -30deg;
+    }
+}
+
+.arrowButton:hover .rightArrowIcon{
+    animation: right-swing 0.3s ease-in-out forwards;
+}
+
+@keyframes right-swing {
+    50%{
+        rotate: 30deg;
+    }
+}
+
+.taskButton:hover .icon{
+    opacity: 1;
+}
+
+
+.taskTitle{
+    font-size: 24px;
+    margin: auto;
+    text-overflow: hidden;
+    overflow: hidden;
+}
+
+.taskButton:hover .taskTitle{
+    color: var(--main-color);
+}
+
+.iconAndInfo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    font-size: 20px;
+}

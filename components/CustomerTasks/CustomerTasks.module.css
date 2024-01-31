@@ -1,0 +1,69 @@
+.tasks{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    max-width: 920px;
+    margin: auto;
+}
+
+.displayNone{
+    /* position: absolute;
+    animation: go-left 1s linear forwards; */
+    display: none;
+  }
+
+  @keyframes go-left{
+    0% {
+        right: 0px;
+    }
+    100% {
+        right: 100vw;
+    }
+}
+
+.taskDiv{
+    width: 300px;
+    min-height: 300px;
+    border-radius: 20px;
+    border: 1px solid var(--tertiary-color);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.taskDiv:hover{
+    border: 1px solid black;
+}
+
+.taskTitleDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.title{
+    font-size: 30px;
+    margin: auto;
+}
+
+.addTaskButton{
+    border-radius: 20px;
+    padding: 2px 10px;
+    border: none;
+}
+
+.addTaskButton img{
+    transition: transform 0.3s ease;
+}
+
+.addTaskButton:hover {
+    cursor: pointer;
+}
+
+.addTaskButton:hover img{
+    transform: rotate(-90deg);
+}

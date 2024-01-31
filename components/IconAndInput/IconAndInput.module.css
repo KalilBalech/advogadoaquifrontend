@@ -1,0 +1,46 @@
+.iconAndInputDiv{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+}
+
+.onHoverImage{
+    display: none;
+}
+
+.iconAndInputDiv:hover .onHoverImage{
+    display: block;
+}
+
+.iconAndInputDiv:hover .defaultImage{
+    display: none;
+}
+
+.label{
+    font-size: 32px;
+}
+
+.input{
+    font-size: 32px;
+    border: none;
+    width: 100%;
+    background-color: var(--secondary-color);
+}
+
+.input:focus{
+    outline: none;
+    border-bottom: 1px solid var(--main-color);
+}
+
+.input::placeholder{
+    color: var(--tertiary-color);
+}
+
+.displayNone{
+    display: none;
+}
+
+.displayBlock{
+    display: block;
+}
