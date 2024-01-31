@@ -68,12 +68,22 @@ export default function SearchCaseBar({setModel, model}){
         return () => clearTimeout(timer);
     }, [caseNumberOrCustomerCase]);
 
+    const handleInput = (value) => {
+        if(model == 'case'){
+            setCaseNumberOrCustomerCase(value)
+        }
+        else if(model == 'customer'){
+            const capitalizedText = value.replace(/\b(\w)/g, char => char.toUpperCase());
+            setCaseNumberOrCustomerCase(capitalizedText)
+        }
+    }
+
     return(
         <div className={styles.searchBarDiv}>
             <button className={styles.button}>
                 <Image alt='search icon' src={searchIcon} width='25' height='25'></Image>
             </button>
-            <input type="text" placeholder={model == 'case' ? 'Número do processo' : 'Nome do cliente'} className={styles.input} value={caseNumberOrCustomerCase} onChange={(e)=>setCaseNumberOrCustomerCase(e.target.value)}/>
+            <input type="text" placeholder={model == 'case' ? 'Número do processo' : 'Nome do cliente'} className={styles.input} value={caseNumberOrCustomerCase} onChange={(e)=>handleInput(e.target.value)}/>
         </div>
     )
 }

@@ -7,47 +7,45 @@ import SearchBar from "@/components/SearchBar/SearchBar";
 import { useRouter } from "next/navigation";
 import CustomerDetailsSideCard from "@/components/CustomerDetailsSideCard/CustomerDetailsSideCard";
 import CustomerCard from "@/components/CustomerCard/CustomerCard";
+import getLawyerCustomers from "@/utils/API/getLawyerCustomers"
+import verifyToken from "@/utils/API/verifyToken";
 
 
-export default function LawyerCases() {
-    const router = useRouter();
-    const BASE_URL = process.env.BASE_URL;
-    const token = localStorage.getItem('token')
-    const [customers, setCustomers] = useState([])
-    const [selectedCustomer, setSelectedCustomer] = useState(null)
-
-    const headers = {
-      Accept: "*/*",
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+export default function CustomersTab() {
+  const router = useRouter();
+  const [customers, setCustomers] = useState([])
+  const [selectedCustomer, setSelectedCustomer] = useState(null)
+  
+  // ATUALIZA A ARVORE DE INFORMAÇÕES NO FRONT
+  useEffect(()=>{
+    if (selectedCustomer) {
+      console.log("O selectedCustomer atualizado: ", selectedCustomer)
+      const updatedCustomers = customers.map(customerItem => 
+        customerItem.id === selectedCase.id ? selectedCase : customerItem
+      );
+      setCustomers(updatedCustomers);
+      console.log("O CUSTOMERS foi alterado porque o SELECTEDCUSTOMER foi alterado: ", customers)
     }
-    
-    useEffect(() => {
-    if (token) {
-      const tokenReqData = { token };
-      // VERIFICA SE A PESSOA TEM PERMISSAO DE ACESSO À PAGINA
-      axios
-        .post(`${BASE_URL}/lawyer/token/verify/`, tokenReqData, {headers: headers})
-        .then(() => {
-            // PEGA OS PROCESSOS DO LAWYER
-          axios
-            .get(`${BASE_URL}/customer/lawyer/`, {headers: headers})
-            .then((response) => {setCustomers(response.data);})
-            .catch((error) => {
-              console.log("Ocorreu algum erro na busca de processos: ", error);
-            });
-        })
-        .catch((error) => {
-          console.log("Token inválido: ", error);
-          router.push("/");
-        });
-    } else {
-      router.push("/");
-    }
+
+  }, [selectedCustomer])
+  
+  useEffect(() => {
+    async function verifyTokenAndGetCustomers() {
+      try {
+          await verifyToken();
+          const lawyerCustomers = await getLawyerCustomers();
+          setCustomers(lawyerCustomers);
+      } catch (error) {
+          // Qualquer erro em verifyToken ou getLawyerCases será tratado aqui
+          console.error("Error: ", error);
+          router.push("/"); // Redirecionar ou tratar o erro conforme necessário
+      }
+  }
+  verifyTokenAndGetCustomers();
   }, []);
 
   return (
-    <body className={`${styles.body} ${selectedCustomer!=null ? styles.blockScroll : ''}`}>
+    <body className={`${styles.body} ${selectedCustomer ? styles.blockScroll : ''}`}>
       <HeaderPersonal></HeaderPersonal>
       <div className={styles.content}>
         <SearchBar setModel={setCustomers} model='customer'></SearchBar>
