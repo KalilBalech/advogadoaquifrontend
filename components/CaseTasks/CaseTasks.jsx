@@ -2,55 +2,34 @@ import styles from './CaseTasks.module.css'
 import plusIcon from '@/public/plusIcon.svg'
 import Image from 'next/image'
 import TaskCard from '@/components/TaskCard/TaskCard'
-import axios from 'axios'
 import { useEffect } from 'react'
-import decodeJWT from '@/utils/decodeToken'
+import createCaseTask from '@/utils/API/createCaseTask'
+import putTaskResponsibleLawyer from '@/utils/API/putTaskResponsibleLawyer'
+import getCaseTasks from '@/utils/API/getCaseTasks'
 
 export default function CaseTasks({caseTasks, setCaseTasks, caseID, selectedTask, setSelectedTask}){
 
-    const BASE_URL = process.env.BASE_URL;
-    const token = localStorage.getItem("token");
-    const lawyerID = decodeJWT(token).user_id
-    const headers = {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-    }
-    const getCaseTasks = () => {
-        axios.get(`${BASE_URL}/task/case/${caseID}/`, {headers: headers})
-        .then(response => setCaseTasks(response.data))
-        .catch(e=>console.log("Ocorreu algum erro ao atulizar o caseTasks: ", e))
-    }
-
-    const putTaskAddresponsibleLawyer = (taskID) => {
-        let data = {}
-        axios.put(`${BASE_URL}/task/${taskID}/responsibleLawyer/${lawyerID}/`,data, {headers})
-        .then((response) => {
-            console.log(`Lawyer ${lawyerID} adicionado como responsible em task ${taskID}: `, response)
-            getCaseTasks()
-        })
-        .catch(e=>console.log("Ocorreu algum erro ao adicionar lawyer na task: ", e))
-    }
-    
-    const createCaseTask = () => {
-        let createTaskData = {
-            title: 'Nova Tarefa',
-            description: 'Descrição',
-        }
-        axios.post(`${BASE_URL}/task/case/${caseID}/`, createTaskData, {headers: headers})
-        .then((response) => {
-            console.log("Task criada com sucesso")
-            let taskID = response.data.id
-            putTaskAddresponsibleLawyer(taskID)
-        })
-        .catch(error => console.log("Ocorreu algum erro ao criar task: ", error))
-    }
-
+    // pega as caseTasks antes de entrar em uma task selecionado e depois de sair de um case task selecionado
     useEffect(()=>{
-        if(selectedTask == null){
-            getCaseTasks()
-        }
+        const fetchCaseTasks = async () => {
+            if (selectedTask == null) {
+                try {
+                    const caseTasksRefreshed = await getCaseTasks(caseID);
+                    setCaseTasks(caseTasksRefreshed);
+                } catch (e) {
+                    console.log("Erro ao buscar caseTasks:", e);
+                }
+            }
+        };
+        fetchCaseTasks();
     }, [selectedTask])
+
+    const handleTaskCreation = async () => {
+        const taskID = await createCaseTask(caseID)
+        await putTaskResponsibleLawyer(taskID)
+        const caseTasksRefreshed = await getCaseTasks(caseID);
+        setCaseTasks(caseTasksRefreshed); 
+    };
 
     return(
         <div className={`${styles.tasks} ${selectedTask ? styles.displayNone : ''}`}>
@@ -59,7 +38,7 @@ export default function CaseTasks({caseTasks, setCaseTasks, caseID, selectedTask
                     <p className={styles.title}>
                         A fazer
                     </p>
-                    <button className={styles.addTaskButton} onClick={()=>createCaseTask()}>
+                    <button className={styles.addTaskButton} onClick={()=>handleTaskCreation()}>
                         <Image alt='plusIcon' src={plusIcon} width={30} height={30}/>
                     </button>
                 </div>

@@ -6,45 +6,42 @@ import HeaderPersonal from "@/components/HeaderPersonal/HeaderPersonal";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import CaseCard from "@/components/CaseCard/CaseCard";
 import { useRouter } from "next/navigation";
-import CaseDetails from "@/components/CaseDetails/CaseDetails";
-
+import CaseDetailsSideCard from "@/components/CaseDetailsSideCard/CaseDetailsSideCard";
+import getLawyerCases from "@/utils/API/getLawyerCases";
+import verifyToken from "@/utils/API/verifyToken";
 
 export default function LawyerCases() {
     const router = useRouter();
-    const BASE_URL = process.env.BASE_URL;
-    const token = localStorage.getItem('token')
     const [cases, setCases] = useState([])
     const [selectedCase, setSelectedCase] = useState(null)
-
-    const headers = {
-      Accept: "*/*",
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    }
+    
+    // ATUALIZA A ARVORE DE INFORMAÇÕES NO FRONT
+    useEffect(()=>{
+      if (selectedCase) {
+        console.log("O SelectedCase atualizado: ", selectedCase)
+        const updatedCases = cases.map(caseItem => 
+          caseItem.id === selectedCase.id ? selectedCase : caseItem
+        );
+        setCases(updatedCases);
+        console.log("O CASES foi alterado porque o selectedCAse foi alterado: ", cases)
+      }
+  
+    }, [selectedCase])
     
     useEffect(() => {
-    if (token) {
-      const tokenReqData = { token };
-      // VERIFICA SE A PESSOA TEM PERMISSAO DE ACESSO À PAGINA
-      axios
-        .post(`${BASE_URL}/lawyer/token/verify/`, tokenReqData, {headers: headers})
-        .then((response) => {
-            // PEGA OS PROCESSOS DO LAWYER
-          axios
-            .get(`${BASE_URL}/case/lawyer/`, {headers: headers})
-            .then((response) => {setCases(response.data);})
-            .catch((error) => {
-              console.log("Ocorreu algum erro na busca de processos: ", error);
-            });
-        })
-        .catch((error) => {
-          console.log("Token inválido: ", error);
-          router.push("/");
-        });
-    } else {
-      router.push("/");
+      async function verifyTokenAndGetCases() {
+        try {
+            await verifyToken();
+            const lawyerCases = await getLawyerCases();
+            setCases(lawyerCases);
+        } catch (error) {
+            // Qualquer erro em verifyToken ou getLawyerCases será tratado aqui
+            console.error("Error: ", error);
+            router.push("/"); // Redirecionar ou tratar o erro conforme necessário
+        }
     }
-  }, []);
+    verifyTokenAndGetCases();
+    }, []);
 
   return (
     <body className={`${styles.body} ${selectedCase!=null ? styles.blockScroll : ''}`}>
@@ -56,7 +53,7 @@ export default function LawyerCases() {
               <CaseCard key={caseItem.id} case={caseItem} setSelectedCase={setSelectedCase}></CaseCard>
             ))}
         </ul>
-        <CaseDetails selectedCase={selectedCase} setSelectedCase={setSelectedCase}></CaseDetails>
+        <CaseDetailsSideCard selectedCase={selectedCase} setSelectedCase={setSelectedCase}></CaseDetailsSideCard>
       </div>
     </body>
   );

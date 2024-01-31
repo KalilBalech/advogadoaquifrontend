@@ -1,5 +1,5 @@
 'on client'
-import styles from './CaseDetails.module.css'
+import styles from './CustomerDetailsSideCard.module.css'
 import xIcon from '@/public/xIcon.svg'
 import teamIcon from '@/public/teamIcon.svg'
 import hashtagIcon from '@/public/hashtagIcon.svg'
@@ -17,14 +17,14 @@ import TaskDetails from '../TaskDetails/TaskDetails'
 
 
 
-export default function RollingCard({selectedCase, setSelectedCase}){
+export default function CaseDetailsSideCard({selectedModel, setSelectedModel}){
     // MANIPULAÇÃO E ATUALIZAÇÃO DE DADOS
-    const [caseName, setCaseName] = useState(selectedCase && selectedCase.name)
-    const [caseAnnotation, setCaseAnnotation] = useState(selectedCase && selectedCase.annotation)
-    const [caseTasks, setCaseTasks] = useState(selectedCase && selectedCase.tasks)
+    const [caseName, setCaseName] = useState(selectedModel && selectedModel.name)
+    const [caseAnnotation, setCaseAnnotation] = useState(selectedModel && selectedModel.annotation)
+    const [caseTasks, setCaseTasks] = useState(selectedModel && selectedModel.tasks)
     const [selectedTask, setSelectedTask] = useState(null)
-    const [caseSuggestedMessage, setCaseSuggestedMessage] = useState(selectedCase && selectedCase.suggestedMessage)
-    const [caseLastTrackedFile, setCaseLastTrackedFile] = useState(selectedCase && selectedCase.lastTrackedFile)
+    const [caseSuggestedMessage, setCaseSuggestedMessage] = useState(selectedModel && selectedModel.suggestedMessage)
+    const [caseLastTrackedFile, setCaseLastTrackedFile] = useState(selectedModel && selectedModel.lastTrackedFile)
 
     const hasPageBeenRendered = useRef({effect1: false, effect2: false, effect3: false})
     // MANIPULAÇÃO DO FRONT END
@@ -43,11 +43,11 @@ export default function RollingCard({selectedCase, setSelectedCase}){
 
     const updateCaseName = () => {
         let nameData = {name: caseName}
-        axios.put(`${BASE_URL}/case/${selectedCase && selectedCase.id}/`, nameData, {headers: headers})
+        axios.put(`${BASE_URL}/case/${selectedModel && selectedModel.id}/`, nameData, {headers: headers})
         .then((response) => {
             console.log("O CASE NAME FOI ATUALIZADO para ", caseName)
             console.log("response: ", response);
-            selectedCase.name = caseName
+            selectedModel.name = caseName
         })
         .catch((error) => {
             console.log("ERRO AO ATUALIZAR CASE NAME", error);
@@ -56,11 +56,11 @@ export default function RollingCard({selectedCase, setSelectedCase}){
 
     const updateCaseAnnotation = () => {
         let annotationData = {annotation: caseAnnotation}
-        axios.put(`${BASE_URL}/case/${selectedCase && selectedCase.id}/`, annotationData, {headers: headers})
+        axios.put(`${BASE_URL}/case/${selectedModel && selectedModel.id}/`, annotationData, {headers: headers})
         .then((response) => {
             console.log("O CASE ANNOTATION FOI ATUALIZADO para ", caseAnnotation)
             console.log("response: ", response);
-            selectedCase.annotation = caseAnnotation
+            selectedModel.annotation = caseAnnotation
         })
         .catch((error) => {
             console.log("ERRO AO ATUALIZAR CASE ANNOTATION", error);
@@ -69,11 +69,11 @@ export default function RollingCard({selectedCase, setSelectedCase}){
 
     const updateCaseSuggestedMessage = () => {
         let suggestedMessageData = {suggestedMessage: caseSuggestedMessage}
-        axios.put(`${BASE_URL}/case/${selectedCase && selectedCase.id}/`, suggestedMessageData, {headers: headers})
+        axios.put(`${BASE_URL}/case/${selectedModel && selectedModel.id}/`, suggestedMessageData, {headers: headers})
         .then((response) => {
             console.log("O CASE SUGGESTED MESSAGE FOI ATUALIZADO para ", caseSuggestedMessage)
             console.log("response: ", response);
-            selectedCase.suggestedMessage = caseSuggestedMessage
+            selectedModel.suggestedMessage = caseSuggestedMessage
         })
         .catch((error) => {
             console.log("ERRO AO ATUALIZAR CASE SUGGESTED MESSAGE", error);
@@ -81,7 +81,7 @@ export default function RollingCard({selectedCase, setSelectedCase}){
     }
 
     useEffect(()=>{
-        if(hasPageBeenRendered.current['effect1'] && selectedCase && caseName){
+        if(hasPageBeenRendered.current['effect1'] && selectedModel && caseName){
             updateCaseName()
         }
         else{
@@ -90,7 +90,7 @@ export default function RollingCard({selectedCase, setSelectedCase}){
     }, [caseName])
 
     useEffect(()=>{
-        if(hasPageBeenRendered.current['effect2'] && selectedCase != null && caseAnnotation != null){
+        if(hasPageBeenRendered.current['effect2'] && selectedModel != null && caseAnnotation != null){
             updateCaseAnnotation()
         }
         else{
@@ -99,7 +99,7 @@ export default function RollingCard({selectedCase, setSelectedCase}){
     }, [caseAnnotation])
 
     useEffect(()=>{
-        if(hasPageBeenRendered.current['effect3'] && selectedCase != null && caseSuggestedMessage != null){
+        if(hasPageBeenRendered.current['effect3'] && selectedModel != null && caseSuggestedMessage != null){
             updateCaseSuggestedMessage()
         }
         else{
@@ -108,22 +108,22 @@ export default function RollingCard({selectedCase, setSelectedCase}){
     }, [caseSuggestedMessage])
 
     useEffect(()=>{
-        setCaseName(selectedCase && selectedCase.name)
-        setCaseAnnotation(selectedCase && selectedCase.annotation)
-        setCaseTasks(selectedCase && selectedCase.tasks)
-        setCaseSuggestedMessage(selectedCase && selectedCase.suggestedMessage)
-    }, [selectedCase])
+        setCaseName(selectedModel && selectedModel.name)
+        setCaseAnnotation(selectedModel && selectedModel.annotation)
+        setCaseTasks(selectedModel && selectedModel.tasks)
+        setCaseSuggestedMessage(selectedModel && selectedModel.suggestedMessage)
+    }, [selectedModel])
 
     const sendWhatsAppMessage = ()=>{
-        if(!selectedCase.customers[0]){
+        if(!selectedModel.customers[0]){
             alert('Não há cliente definido para esse processo')
             return
         }
-        if(!selectedCase.customers[0].phoneNumber){
+        if(!selectedModel.customers[0].phoneNumber){
             alert('Não há celular definido para o cliente desse processo')
             return
         }
-        let customerPhoneNumber = selectedCase.customers[0].phoneNumber
+        let customerPhoneNumber = selectedModel.customers[0].phoneNumber
         let text = caseSuggestedMessage
         window.open(`https://api.whatsapp.com/send?phone=${customerPhoneNumber}&text=${text}`, '_blank');
     }
@@ -134,26 +134,26 @@ export default function RollingCard({selectedCase, setSelectedCase}){
 
         
     return(
-        <div className={`${styles.rollingCardDiv} ${selectedCase!=null ? styles.rollingCardIn : ''}`}>
+        <div className={`${styles.rollingCardDiv} ${selectedModel!=null ? styles.rollingCardIn : ''}`}>
             <div className={styles.rollingCardHeader}>
-                <button className={styles.xButton} onClick={()=>{setSelectedCase(null)}}>
+                <button className={styles.xButton} onClick={()=>{setSelectedModel(null)}}>
                     <Image alt='x Icon' src={xIcon} width={50} height={50}/>
                 </button>
                 <textarea className={styles.inputTitle} rows={1} cols={30} value={caseName!=null ? caseName : ''} onChange={(e)=>{setCaseName(e.target.value)}}/>
-                <button className={styles.statusMessage}><p>{selectedCase && selectedCase.status != 'VIS' && 'Movimentações'}</p></button>
+                <button className={styles.statusMessage}><p>{selectedModel && selectedModel.status != 'VIS' && 'Movimentações'}</p></button>
             </div>
             <div className={styles.iconInfoSection}>
                 <div className={styles.iconInfo}>
                     <Image alt='Team Icon' src={teamIcon} width='40' height='40'></Image>
-                    <p className={styles.caseNumber}>Equipe: {selectedCase && selectedCase.lawyers.map(lawyer => lawyer.name).join(', ')}</p>
+                    <p className={styles.caseNumber}>Equipe: {selectedModel && selectedModel.lawyers.map(lawyer => lawyer.name).join(', ')}</p>
                 </div>
                 <div className={styles.iconInfo}>
                     <Image alt='Hashtag Icon' src={hashtagIcon} width='40' height='40'></Image>
-                    <p className={styles.caseNumber}>Processo: {selectedCase && selectedCase.number}</p>
+                    <p className={styles.caseNumber}>Processo: {selectedModel && selectedModel.number}</p>
                 </div>
                 <div className={styles.iconInfo}>
                     <Image alt='user Icon' src={userIcon} width='40' height='40'></Image>
-                    <p className={styles.caseNumber}>Cliente: {selectedCase && selectedCase.customers.map(customer => customer.name).join(', ')}</p>
+                    <p className={styles.caseNumber}>Cliente: {selectedModel && selectedModel.customers.map(customer => customer.name).join(', ')}</p>
                 </div>
             </div>
             <div className={styles.arrowInfoSection}>
@@ -172,8 +172,8 @@ export default function RollingCard({selectedCase, setSelectedCase}){
                         <p>Tarefas relacionadas ao processo</p>
                     </button>
                     {isCaseTasksOpen && <div className={`${styles.contentHiddenSection}`}>
-                        <CaseTasks caseTasks={selectedCase && caseTasks} setCaseTasks={setCaseTasks} caseID = {selectedCase && selectedCase.id} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
-                        <TaskDetails selectedCase={selectedCase} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+                        <CaseTasks caseTasks={selectedModel && caseTasks} setCaseTasks={setCaseTasks} caseID = {selectedModel && selectedModel.id} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+                        <TaskDetails selectedModel={selectedModel} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
                     </div>}
                 </div>
                 <div className={styles.arrowInfo}>

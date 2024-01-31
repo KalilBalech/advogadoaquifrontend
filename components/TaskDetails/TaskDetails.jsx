@@ -4,125 +4,74 @@ import Image from "next/image";
 import clockIcon from "@/public/clockIcon.svg";
 import userIcon from "@/public/userIcon.svg";
 import arrowLeftIcon from "@/public/arrowLeftIcon.svg";
-import { useState, useRef, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import putTaskTitle from "@/utils/API/putTaskTitle";
+import putTaskDescription from "@/utils/API/putTaskDescription";
+import putTaskDeadline from "@/utils/API/putTaskDeadline";
+import putTaskResponsibleLawyer from "@/utils/API/putTaskResponsibleLawyer";
 
 export default function TaskDetails({
   selectedCase,
   selectedTask,
   setSelectedTask,
 }) {
+
   const [taskTitle, setTaskTitle] = useState(
     selectedTask && selectedTask.title
   );
   const [taskDescription, setTaskDescription] = useState(
     selectedTask && selectedTask.description
   );
-  const [taskDeadline, setTaskDeadline] = useState(
-    selectedTask &&
-      selectedTask.deadline.split("-")[2] +
-        "/" +
-        selectedTask.deadline.split("-")[1] +
-        "/" +
-        selectedTask.deadline.split("-")[0]
-  );
+  const [taskDeadline, setTaskDeadline] = useState(selectedTask &&
+    selectedTask.deadline.split("-")[2] +
+    "/" +
+    selectedTask.deadline.split("-")[1] +
+    "/" +
+    selectedTask.deadline.split("-")[0]
+    );
+    const [taskResponsibleLawyerID, setTaskResponsibleLawyerID] = useState(
+      selectedTask && selectedTask.responsibleLawyerID && selectedTask.responsibleLawyerID.id
+      );
 
-  const hasPageBeenRendered = useRef({
-    effect1: false,
-    effect2: false,
-    effect3: false,
-  });
-
-  const BASE_URL = process.env.BASE_URL;
-  const token = localStorage.getItem("token");
-  const headers = {
-    Accept: "*/*",
-    "Content-Type": "application/json",
-    Authorization: "Bearer " + token,
-  };
-
-  console.log("taskDeadline: ", taskDeadline && taskDeadline);
-  console.log("typeof taskDeadline: ", taskDeadline && typeof taskDeadline);
-
-  const updateTaskTitle = () => {
-    let nameData = { title: taskTitle };
-    axios
-      .put(`${BASE_URL}/task/${selectedTask && selectedTask.id}/`, nameData, {
-        headers: headers,
-      })
-      .then((response) => {
-        console.log("O TASK TITLE FOI ATUALIZADO para ", taskTitle);
-        console.log("response: ", response);
-        selectedTask.name = taskTitle;
-      })
-      .catch((error) => {
-        console.log("ERRO AO ATUALIZAR CASE NAME", error);
-      });
-  };
+    const [taskDeadlineWasUpdated, setTaskDeadlineWasUpdated] = useState(false)
+  useEffect(() => {
+    setTaskTitle(selectedTask && selectedTask.title);
+    setTaskDescription(selectedTask && selectedTask.description);
+    setTaskDeadline(
+      selectedTask &&
+        selectedTask.deadline.split("-")[2] +
+          "/" +
+          selectedTask.deadline.split("-")[1] +
+          "/" +
+          selectedTask.deadline.split("-")[0]
+    );
+    setTaskResponsibleLawyerID(selectedTask && selectedTask.responsibleLawyerID && selectedTask.responsibleLawyerID.id)
+  }, [selectedTask]);
 
   useEffect(() => {
-    if (hasPageBeenRendered.current["effect1"] && selectedTask && taskTitle) {
-      updateTaskTitle();
-    } else {
-      hasPageBeenRendered.current["effect1"] = true;
+    if(selectedTask){
+      putTaskTitle(selectedTask.id, taskTitle);
+      setSelectedTask(selectedTask=>{return {...selectedTask, title: taskTitle}})
     }
   }, [taskTitle]);
 
-  const updateTaskDescription = () => {
-    let nameData = { description: taskDescription };
-    axios
-      .put(`${BASE_URL}/task/${selectedTask && selectedTask.id}/`, nameData, {
-        headers: headers,
-      })
-      .then((response) => {
-        console.log("O TASK DESCRIPTION FOI ATUALIZADO para ", taskDescription);
-        console.log("response: ", response);
-        selectedTask.description = taskDescription;
-      })
-      .catch((error) => {
-        console.log("ERRO AO ATUALIZAR TASK DESCRIPTION", error);
-      });
-  };
-
   useEffect(() => {
-    if (
-      hasPageBeenRendered.current["effect2"] &&
-      selectedTask &&
-      taskDescription
-    ) {
-      updateTaskDescription();
-    } else {
-      hasPageBeenRendered.current["effect2"] = true;
+    if (selectedTask) {
+      putTaskDescription(selectedTask.id, taskDescription);
+      setSelectedTask(selectedTask=>{return {...selectedTask, description: taskDescription}})
     }
   }, [taskDescription]);
 
-  const updateTaskDeadline = (dataBaseDeadlineValue) => {
-    console.log("VAI ATUALIZER A DATA @@@@@@@@@@@: ", dataBaseDeadlineValue);
-    let taskDeadlineData = { deadline: dataBaseDeadlineValue };
-    axios
-      .put(
-        `${BASE_URL}/task/${selectedTask && selectedTask.id}/`,
-        taskDeadlineData,
-        {
-          headers: headers,
-        }
-      )
-      .then((response) => {
-        console.log(
-          "O TASK DEADLINE FOI ATUALIZADO para ",
-          dataBaseDeadlineValue
-        );
-        console.log("response: ", response);
-        selectedTask.deadline = dataBaseDeadlineValue;
-      })
-      .catch((error) => {
-        console.log("ERRO AO ATUALIZAR TASK DEADLINE", error);
-      });
-  };
+  useEffect(() => {
+    if (selectedTask) {
+      putTaskResponsibleLawyer(selectedTask.id, taskResponsibleLawyerID);
+      setSelectedTask(selectedTask=>{return {...selectedTask, responsibleLawyerID: {id: taskResponsibleLawyerID}}})
+    }
+  }, [taskResponsibleLawyerID]);
+
 
   useEffect(() => {
     if (
-      hasPageBeenRendered.current["effect3"] &&
       selectedTask &&
       taskDeadline &&
       taskDeadline.length == 10 &&
@@ -137,25 +86,10 @@ export default function TaskDetails({
         taskDeadline.split("/")[1] +
         "-" +
         taskDeadline.split("/")[0];
-      updateTaskDeadline(dataBaseDeadlineValue);
-    } else {
-      hasPageBeenRendered.current["effect3"] = true;
+        console.log("A deadline vai ser atualizada com o valor: ", dataBaseDeadlineValue);
+        putTaskDeadline(selectedTask.id, dataBaseDeadlineValue);
     }
-    console.log("taskDeadline: ", taskDeadline);
   }, [taskDeadline]);
-
-  useEffect(() => {
-    setTaskTitle(selectedTask && selectedTask.title);
-    setTaskDescription(selectedTask && selectedTask.description);
-    setTaskDeadline(
-      selectedTask &&
-        selectedTask.deadline.split("-")[2] +
-          "/" +
-          selectedTask.deadline.split("-")[1] +
-          "/" +
-          selectedTask.deadline.split("-")[0]
-    );
-  }, [selectedTask]);
 
   const handleDateInputOnChange = (newDateInput) => {
     let lastChar = newDateInput[newDateInput.length - 1];
@@ -222,23 +156,6 @@ export default function TaskDetails({
     }
   };
 
-  const editResponsibleLawyer = (lawyerID) => {
-    console.log('lawyerID', lawyerID);
-    let emptyReqData = {};
-    axios
-      .put(`${BASE_URL}/task/${selectedTask && selectedTask.id}/responsibleLawyer/${lawyerID}/`, emptyReqData, {
-        headers: headers,
-      })
-      .then((response) => {
-        console.log("O TASK RESPONSIBLE LAWYER FOI ALTERADO COM SUCESSO ", response);
-        console.log("response: ", response);
-        selectedTask.responsibleLawyerID.id = lawyerID;
-      })
-      .catch((error) => {
-        console.log("ERRO AO ATUALIZAR TASK RESPONSIBLE LAWYER", error);
-      });
-  }
-
   return (
     <div
       className={`${styles.taskDetailsDiv} ${
@@ -280,8 +197,8 @@ export default function TaskDetails({
       </div>
       <div className={styles.taskDetailsIconAndInfo}>
         <Image alt="userIcon" src={userIcon} width={50} height={50} />
-        <label for="lawyers">Responsável:</label>
-        <select id="lawyers" name="lawyers" className={styles.selectLawyer} onChange={(e)=>{editResponsibleLawyer(e.target.value)}}>
+        <label>Responsável:</label>
+        <select id="lawyers" name="lawyers" value={taskResponsibleLawyerID ? taskResponsibleLawyerID : ''} className={styles.selectLawyer} onChange={(e)=>{setTaskResponsibleLawyerID(e.target.value)}}>
           {selectedCase &&
             selectedCase.lawyers.map((lawyer) => (
               <option key={lawyer.id} value={lawyer.id} className={styles.responsibleLawyerOption}>

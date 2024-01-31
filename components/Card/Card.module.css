@@ -1,0 +1,16 @@
+.cardDiv{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 560px;
+    max-width: 100%;
+    padding: 10px 30px;
+    background-color: var(--secondary-color);
+    border: solid 1px var(--tertiary-color);
+    border-radius: 20px;
+}
+
+.cardDiv:hover{
+    cursor: pointer;
+    border: solid 1px black;
+}

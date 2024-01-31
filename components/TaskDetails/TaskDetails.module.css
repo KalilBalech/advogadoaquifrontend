@@ -1,10 +1,7 @@
 .taskDetailsDiv{
-    display: flex;
     flex-direction: column;
     gap: 50px;
     min-width: 920px;
-    display: flex;
-    flex-direction: column;
     padding: 10px 20px;
     background-color: var(--secondary-color);
     border-radius: 20px;
@@ -16,17 +13,17 @@
 
 .displayBlock{
     display: block;
-    /* animation: pop-in 0.5s ease-in-out forwards; */
+    /* position: relative;
+    animation: come-left 1s linear forwards; */
+
 }
 
-@keyframes pop-in{
-    0%{
-        opacity: 0;
-        transform: scale(.8);
+@keyframes come-left{
+    0% {
+        left: 100vw;
     }
-    100%{
-        opacity: 1;
-        transform: none;
+    100% {
+        left: 0;
     }
 }
 
@@ -67,7 +64,7 @@
     font-size: 32px;
     background-color: var(--secondary-color);
     border: none;
-    overflow: visible;
+    overflow: scroll;
     color: var(--main-color);
 }
 
@@ -104,6 +101,10 @@
 }
 
 .selectLawyer:hover{
+    outline: none;
+}
+
+.selectLawyer:focus{
     outline: none;
 }
 

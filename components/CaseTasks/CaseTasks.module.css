@@ -1,4 +1,5 @@
 .tasks{
+    position: relative;
     display: flex;
     flex-direction: row;
     gap:20px;
@@ -7,34 +8,19 @@
 }
 
 .displayNone{
-    /* animation: pop-out 10s linear forwards; */
+    /* position: absolute;
+    animation: go-left 1s linear forwards; */
     display: none;
   }
-/* 
-  @keyframes pop-out{
-    0%{
-        opacity: 1;
-        transform: none; 
 
-        margin: auto;
-        display: block;
-
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%);
+  @keyframes go-left{
+    0% {
+        right: 0px;
     }
-    100%{
-        opacity: 0;
-        transform: scale(.8);
-
-        margin-right: 100vw;
-        display: none;
-
-        position: absolute;
-        left: -100vw;
-        transform: translate(0);
+    100% {
+        right: 100vw;
     }
-} */
+}
 
 .taskDiv{
     width: 300px;

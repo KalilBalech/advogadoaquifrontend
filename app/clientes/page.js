@@ -4,10 +4,9 @@ import styles from "./page.module.css";
 import axios from "axios";
 import HeaderPersonal from "@/components/HeaderPersonal/HeaderPersonal";
 import SearchBar from "@/components/SearchBar/SearchBar";
-import CaseCard from "@/components/CaseCard/CaseCard";
 import { useRouter } from "next/navigation";
-import CaseDetails from "@/components/CaseDetails/CaseDetails";
-import Customer from "@/components/Customer/Customer";
+import CustomerDetailsSideCard from "@/components/CustomerDetailsSideCard/CustomerDetailsSideCard";
+import CustomerCard from "@/components/CustomerCard/CustomerCard";
 
 
 export default function LawyerCases() {
@@ -54,10 +53,10 @@ export default function LawyerCases() {
         <SearchBar setModel={setCustomers} model='customer'></SearchBar>
         <ul>
             {customers.map((customer) => (
-              <Customer key={customer.id} customer={customer} setSelectedCustomer={setSelectedCustomer}></Customer>
+              <CustomerCard key={customer.id} customer={customer} setSelectedCustomer={setSelectedCustomer}></CustomerCard>
             ))}
         </ul>
-        <CaseDetails selectedCustomer={selectedCustomer} setSelectedCustomer={setSelectedCustomer}></CaseDetails>
+        <CustomerDetailsSideCard selectedModel={selectedCustomer} setSelectedModel={setSelectedCustomer}></CustomerDetailsSideCard>
       </div>
     </body>
   );
