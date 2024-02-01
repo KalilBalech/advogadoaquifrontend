@@ -26,9 +26,9 @@ export default function Tasks({tasks, setTasks, ownerID, selectedTask, setSelect
     }, [selectedTask])
 
     const handleTaskCreation = async () => {
-        const taskID = await createLawyerTask(customerID) // essa função é personalizavel
+        const taskID = await createLawyerTask() // essa função é personalizavel
         await putTaskResponsibleLawyer(taskID)
-        const caseTasksRefreshed = await getLawyerTasks(customerID); // essa função é personalizavel
+        const caseTasksRefreshed = await getLawyerTasks(); // essa função é personalizavel
         setTasks(caseTasksRefreshed); 
     };
 

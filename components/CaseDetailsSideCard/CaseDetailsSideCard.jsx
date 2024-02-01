@@ -21,6 +21,7 @@ import updateCaseName from '@/utils/API/updateCaseName'
 import putCaseAnnotation from '@/utils/API/putCaseAnnotation'
 import updateCaseSuggestedMessage from '@/utils/API/updateCaseSuggestedMessage'
 import updateCaseLastTrackedFile from '@/utils/API/updateCaseLastTrackedFile'
+import putCaseAddLawyer from '@/utils/API/putCaseAddLawyer'
 
 export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
 
@@ -29,6 +30,7 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
     const [caseTasks, setCaseTasks] = useState(selectedCase && selectedCase.tasks)
     const [caseSuggestedMessage, setCaseSuggestedMessage] = useState(selectedCase && selectedCase.suggestedMessage)
     const [caseLastTrackedFile, setCaseLastTrackedFile] = useState(selectedCase && selectedCase.lastTrackedFile)
+    const [caseLawyers, setCaseLawyers] = useState(selectedCase && selectedCase.lawyers)
 
     const [selectedTask, setSelectedTask] = useState(null)
     
@@ -42,6 +44,7 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
             setCaseTasks(selectedCase.tasks)
             setCaseSuggestedMessage(selectedCase.suggestedMessage)
             setCaseLastTrackedFile(selectedCase.lastTrackedFile)
+            setCaseLawyers(selectedCase.lawyers)
             justLoadedSelectedCase.current = true
         }
         // Atualizar a ref com o valor atual de selectedCase
@@ -100,6 +103,12 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
         }
     }, [caseLastTrackedFile])
 
+    useEffect(()=>{
+        if(selectedCase && !justLoadedSelectedCase.current){
+            setSelectedCase(selectedCase=>{return {...selectedCase, lawyers: caseLawyers}})
+        }
+    }, [caseLawyers])
+
     const sendWhatsAppMessage = ()=>{
         if(!selectedCase.customers[0]){
             alert('Não há cliente definido para esse processo')
@@ -118,13 +127,22 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
 
     }
 
-    const [addLawyerToCase, setAddLawyerToCase] = useState(false)
+    const [addLawyerToCaseInput, setAddLawyerToCaseInput] = useState(false)
     const [newCaseLawyer, setNewCaseLawyer] = useState()
 
     useEffect(()=>{
-        if(newCaseLawyer){
-            
+        async function addLawyer(){
+            if(newCaseLawyer){
+                setAddLawyerToCaseInput(false)
+                if(confirm(`Adicionar advogado ao processo?\n\nNome: ${newCaseLawyer.name}\nEmail: ${newCaseLawyer.email}`)){
+                    await putCaseAddLawyer(selectedCase.id, newCaseLawyer.id)
+                    const newLawyerList = [newCaseLawyer]
+                    setCaseLawyers(currentCaseLawyers=>[...currentCaseLawyers, ...newLawyerList])
+                }
+                setNewCaseLawyer(null)
+            }
         }
+        addLawyer()
     }, [newCaseLawyer])
         
     return(
@@ -145,12 +163,12 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
             </div>
             <div className={styles.iconInfoSection}>
                 <div className={`${styles.iconInfo} ${styles.teamIconInfo}`}>
-                        <button className={`${styles.addUserButton}`} onClick={()=>{setAddLawyerToCase(!addLawyerToCase)}}>
+                        <button className={`${styles.addUserButton}`} onClick={()=>{setAddLawyerToCaseInput(!addLawyerToCaseInput)}}>
                             <Image alt='Team Icon' src={teamIcon} width='40' height='40' className={styles.teamIcon}></Image>
                             <Image alt='Add User Icon' src={addUserIcon} width='40' height='40' className={`${styles.displayNone} ${styles.addUserIcon}`}></Image>
                         </button>
-                        <p className={styles.caseNumber}>Equipe: {selectedCase && selectedCase.lawyers && selectedCase.lawyers.map(lawyer => lawyer.name).join(', ')}</p>
-                    {addLawyerToCase && <AddLawyerToCaseInput newCaseLawyer={newCaseLawyer} setNewCaseLawyer={setNewCaseLawyer}/>}
+                        <p className={styles.caseNumber}>Equipe: {caseLawyers && caseLawyers.map(lawyer => lawyer.name).join(', ')}</p>
+                    {addLawyerToCaseInput && <AddLawyerToCaseInput newCaseLawyer={newCaseLawyer} setNewCaseLawyer={setNewCaseLawyer}/>}
                 </div>
                 <div className={styles.iconInfo}>
                     <Image alt='Hashtag Icon' src={hashtagIcon} width='40' height='40'></Image>
@@ -162,25 +180,21 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
                 </div>
             </div>
             <div className={styles.arrowInfoSection}>
-                <DetailsSideBarArrowInfo title={'Atendimento'}>
-                    <textarea value={caseAnnotation!=null ? caseAnnotation : ''} 
-                    placeholder='Registre o atendimento aqui' 
+                <DetailsSideBarArrowInfo title={'Última publicação'}>
+                    <textarea value={caseLastTrackedFile!=null ? caseLastTrackedFile : ''} 
+                    rows={10}
+                    placeholder='A última publicação não foi registrada' 
                     className={`${styles.inputContent}`} 
                     onChange={(e)=>{
                         justLoadedSelectedCase.current = false
-                        setCaseAnnotation(e.target.value)
-                        }}/>
-                </DetailsSideBarArrowInfo>
-                <DetailsSideBarArrowInfo title={'Tarefas relacionadas ao processo'}>
-                    <div className={`${styles.contentHiddenSection}`}>
-                        <CaseTasks caseTasks={selectedCase && caseTasks} setCaseTasks={setCaseTasks} caseID = {selectedCase && selectedCase.id} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
-                        <TaskDetails selectedCase={selectedCase} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
-                    </div>
+                        setCaseLastTrackedFile(e.target.value)
+                    }}/>
                 </DetailsSideBarArrowInfo>
                 <DetailsSideBarArrowInfo title={'Mensagem sugerida'}>
                     <div className={`${styles.contentHiddenSection} ${styles.displayFlexColumn}`}>
                         <textarea value={caseSuggestedMessage!=null ? caseSuggestedMessage : ''} 
-                            placeholder='Só há sugestões de mensagens quando há movimentações no processo' 
+                            placeholder='Só há sugestões de mensagens quando há movimentações no processo'
+                            rows={10}
                             className={`${styles.inputContent}`} 
                             onChange={(e)=>{
                                 justLoadedSelectedCase.current = false
@@ -198,14 +212,20 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
                         </div>
                     </div>               
                 </DetailsSideBarArrowInfo>
-                <DetailsSideBarArrowInfo title={'Última publicação'}>
-                    <textarea value={caseLastTrackedFile!=null ? caseLastTrackedFile : ''} 
-                    placeholder='A última publicação não foi registrada' 
+                <DetailsSideBarArrowInfo title={'Atendimento'}>
+                    <textarea value={caseAnnotation!=null ? caseAnnotation : ''} 
+                    placeholder='Registre o atendimento aqui' 
                     className={`${styles.inputContent}`} 
                     onChange={(e)=>{
                         justLoadedSelectedCase.current = false
-                        setCaseLastTrackedFile(e.target.value)
-                    }}/>
+                        setCaseAnnotation(e.target.value)
+                        }}/>
+                </DetailsSideBarArrowInfo>
+                <DetailsSideBarArrowInfo title={'Tarefas relacionadas ao processo'}>
+                    <div className={`${styles.contentHiddenSection}`}>
+                        <CaseTasks caseTasks={selectedCase && caseTasks} setCaseTasks={setCaseTasks} caseID = {selectedCase && selectedCase.id} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+                        <TaskDetails selectedCase={selectedCase} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+                    </div>
                 </DetailsSideBarArrowInfo>
             </div>
         </DetailsSideCardDiv>

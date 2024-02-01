@@ -57,5 +57,5 @@
 
 .lawyerOption:hover{
     cursor: pointer;
-    background-color: var(--tertiary-color);
+    outline: solid 1px var(--main-color);
 }

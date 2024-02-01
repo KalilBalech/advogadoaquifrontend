@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./page.module.css";
 import HeaderPersonal from "@/components/HeaderPersonal/HeaderPersonal";
 import SearchBar from "@/components/SearchBar/SearchBar";
@@ -14,6 +14,7 @@ export default function CustomersTab() {
   const router = useRouter();
   const [tasks, setTasks] = useState([])
   const [selectedTask, setSelectedTask] = useState(null)
+  const token = useRef()
   
   // ATUALIZA A ARVORE DE INFORMAÇÕES NO FRONT
   useEffect(()=>{
@@ -29,6 +30,7 @@ export default function CustomersTab() {
   }, [selectedTask])
   
   useEffect(() => {
+    token.current = localStorage.getItem("token");
     async function verifyTokenAndGetCustomers() {
       try {
           await verifyToken();
@@ -48,8 +50,8 @@ export default function CustomersTab() {
       <HeaderPersonal></HeaderPersonal>
       <div className={styles.content}>
         {/* <SearchBar setModel={setCustomers} model='customer'></SearchBar> */}
-        <LawyerTasks tasks={tasks} setTasks={setTasks} ownerID = {decodeToken(localStorage.getItem('token'))} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
-        <LawyerTaskDetails lawyerID = {decodeToken(localStorage.getItem('token'))} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+        <LawyerTasks tasks={tasks} setTasks={setTasks} ownerID = {decodeToken(token)} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+        <LawyerTaskDetails lawyerID = {decodeToken(token)} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
       </div>
     </body>
   );
