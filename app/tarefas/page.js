@@ -14,7 +14,7 @@ export default function CustomersTab() {
   const router = useRouter();
   const [tasks, setTasks] = useState([])
   const [selectedTask, setSelectedTask] = useState(null)
-  const token = useRef()
+  const lawyerID = useRef()
   
   // ATUALIZA A ARVORE DE INFORMAÇÕES NO FRONT
   useEffect(()=>{
@@ -30,7 +30,7 @@ export default function CustomersTab() {
   }, [selectedTask])
   
   useEffect(() => {
-    token.current = localStorage.getItem("token");
+    token.current = decodeToken(localStorage.getItem("token"))
     async function verifyTokenAndGetCustomers() {
       try {
           await verifyToken();
@@ -41,8 +41,8 @@ export default function CustomersTab() {
           console.error("Error: ", error);
           router.push("/"); // Redirecionar ou tratar o erro conforme necessário
       }
-  }
-  verifyTokenAndGetCustomers();
+    }
+    verifyTokenAndGetCustomers();
   }, []);
 
   return (
@@ -50,8 +50,8 @@ export default function CustomersTab() {
       <HeaderPersonal></HeaderPersonal>
       <div className={styles.content}>
         {/* <SearchBar setModel={setCustomers} model='customer'></SearchBar> */}
-        <LawyerTasks tasks={tasks} setTasks={setTasks} ownerID = {decodeToken(token)} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
-        <LawyerTaskDetails lawyerID = {decodeToken(token)} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+        <LawyerTasks tasks={tasks} setTasks={setTasks} ownerID = {lawyerID} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
+        <LawyerTaskDetails lawyerID = {lawyerID} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
       </div>
     </body>
   );

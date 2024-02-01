@@ -3,7 +3,7 @@ import styles from './SearchBar.module.css'
 import Image from 'next/image'
 import searchIcon from '@/public/searchIcon.svg'
 import axios from 'axios'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function SearchBar({setModel, model}){
 
@@ -18,12 +18,18 @@ export default function SearchBar({setModel, model}){
         GET_URL = `${BASE_URL}/customer/lawyer/`
     }
 
-    const token = localStorage.getItem('token')
-    const headers = {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-    }
+    const token = useRef()
+    const headers = useRef()
+
+    useEffect(()=>{
+        token.current = localStorage.getItem('token')
+        headers.current = {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+        }
+    }, [])
+
     const [caseNumberOrCustomerCase, setCaseNumberOrCustomerCase] = useState('')
 
     const [timer, setTimer] = useState(null);

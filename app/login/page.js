@@ -34,7 +34,7 @@ export default function Login() {
         console.log("Token inválido: ",error)
       });
     }
-  });
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
