@@ -22,7 +22,7 @@ export default function TaskDetails({
   const [taskDescription, setTaskDescription] = useState(
     selectedTask && selectedTask.description
   );
-  const [taskDeadline, setTaskDeadline] = useState(selectedTask &&
+  const [taskDeadline, setTaskDeadline] = useState(selectedTask && selectedTask.deadline &&
     selectedTask.deadline.split("-")[2] +
     "/" +
     selectedTask.deadline.split("-")[1] +

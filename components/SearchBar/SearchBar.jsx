@@ -1,4 +1,4 @@
-'on client'
+'use client'
 import styles from './SearchBar.module.css'
 import Image from 'next/image'
 import searchIcon from '@/public/searchIcon.svg'

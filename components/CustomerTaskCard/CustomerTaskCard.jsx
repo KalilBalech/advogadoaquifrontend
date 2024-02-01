@@ -42,7 +42,7 @@ export default function CustomerTaskCard({task, setSelectedTask, setCustomerTask
         </div>
         <div className={styles.iconAndInfo}>
             <Image alt='clockIcon' src={clockIcon} width={30} height={30}/>
-            <p className={styles.deadlineInfo}>{task.deadline.split('-')[2]+'/'+task.deadline.split('-')[1]+'/'+task.deadline.split('-')[0]}</p>
+            <p className={styles.deadlineInfo}>{task && task.deadline && task.deadline.split('-')[2]+'/'+task.deadline.split('-')[1]+'/'+task.deadline.split('-')[0]}</p>
         </div>
         <div className={styles.iconAndInfo}>
             <Image alt='userIcon' src={userIcon} width={30} height={30}/>

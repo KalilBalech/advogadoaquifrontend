@@ -22,7 +22,7 @@ export default function LawyerTaskDetails({
   const [taskDescription, setTaskDescription] = useState(
     selectedTask && selectedTask.description
   );
-  const [taskDeadline, setTaskDeadline] = useState(selectedTask &&
+  const [taskDeadline, setTaskDeadline] = useState(selectedTask && selectedTask.deadline &&
     selectedTask.deadline.split("-")[2] +
     "/" +
     selectedTask.deadline.split("-")[1] +
@@ -42,7 +42,7 @@ export default function LawyerTaskDetails({
       setTaskTitle(selectedTask && selectedTask.title);
       setTaskDescription(selectedTask && selectedTask.description);
       setTaskDeadline(
-        selectedTask &&
+        selectedTask && selectedTask.deadline &&
           selectedTask.deadline.split("-")[2] +
             "/" +
             selectedTask.deadline.split("-")[1] +
