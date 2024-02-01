@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
-import axios from "axios";
 import HeaderPersonal from "@/components/HeaderPersonal/HeaderPersonal";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import CaseCard from "@/components/CaseCard/CaseCard";

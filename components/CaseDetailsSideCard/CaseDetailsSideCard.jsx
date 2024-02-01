@@ -8,8 +8,10 @@ import whatsappIcon from '@/public/whatsappIcon.svg'
 import whatsappIconColor from '@/public/whatsappIconColor.svg'
 import emailIcon from '@/public/emailIcon.svg'
 import emailIconColor from '@/public/emailIconColor.svg'
+import addUserIcon from '@/public/addUserIcon.svg'
 import Image from 'next/image'
 import CaseTasks from '@/components/CaseTasks/CaseTasks'
+import AddLawyerToCaseInput from '@/components/AddLawyerToCaseInput/AddLawyerToCaseInput'
 import { useEffect, useState, useRef } from 'react'
 import TaskDetails from '../TaskDetails/TaskDetails'
 import DetailsSideBarArrowInfo from '../DetailsSideBarArrowInfo/DetailsSideBarArrowInfo'
@@ -116,6 +118,14 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
 
     }
 
+    const [addLawyerToCase, setAddLawyerToCase] = useState(false)
+    const [newCaseLawyer, setNewCaseLawyer] = useState()
+
+    useEffect(()=>{
+        if(newCaseLawyer){
+            
+        }
+    }, [newCaseLawyer])
         
     return(
         <DetailsSideCardDiv selectedModel={selectedCase}>
@@ -134,9 +144,13 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
                 <button className={styles.statusMessage}><p>{selectedCase && selectedCase.status != 'VIS' && 'Movimentações'}</p></button>
             </div>
             <div className={styles.iconInfoSection}>
-                <div className={styles.iconInfo}>
-                    <Image alt='Team Icon' src={teamIcon} width='40' height='40'></Image>
-                    <p className={styles.caseNumber}>Equipe: {selectedCase && selectedCase.lawyers && selectedCase.lawyers.map(lawyer => lawyer.name).join(', ')}</p>
+                <div className={`${styles.iconInfo} ${styles.teamIconInfo}`}>
+                        <button className={`${styles.addUserButton}`} onClick={()=>{setAddLawyerToCase(!addLawyerToCase)}}>
+                            <Image alt='Team Icon' src={teamIcon} width='40' height='40' className={styles.teamIcon}></Image>
+                            <Image alt='Add User Icon' src={addUserIcon} width='40' height='40' className={`${styles.displayNone} ${styles.addUserIcon}`}></Image>
+                        </button>
+                        <p className={styles.caseNumber}>Equipe: {selectedCase && selectedCase.lawyers && selectedCase.lawyers.map(lawyer => lawyer.name).join(', ')}</p>
+                    {addLawyerToCase && <AddLawyerToCaseInput newCaseLawyer={newCaseLawyer} setNewCaseLawyer={setNewCaseLawyer}/>}
                 </div>
                 <div className={styles.iconInfo}>
                     <Image alt='Hashtag Icon' src={hashtagIcon} width='40' height='40'></Image>

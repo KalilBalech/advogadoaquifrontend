@@ -122,36 +122,6 @@ export default function CustomerDetailsSideCard({selectedCustomer, setSelectedCu
                         <TaskDetails selectedCase={selectedCustomer} selectedTask={selectedTask} setSelectedTask={setSelectedTask}/>
                     </div>
                 </DetailsSideBarArrowInfo>
-                {/* <DetailsSideBarArrowInfo title={'Atendimentos'}>
-                    <div className={`${styles.contentHiddenSection} ${styles.displayFlexColumn}`}>
-                        <textarea value={caseSuggestedMessage!=null ? caseSuggestedMessage : ''} 
-                            placeholder='Só há sugestões de mensagens quando há movimentações no processo' 
-                            className={`${styles.inputContent}`} 
-                            onChange={(e)=>{
-                                justLoadedSelectedCase.current = false
-                                setCaseSuggestedMessage(e.target.value)
-                                }}/>
-                        <div className={styles.messageButtonsDiv}>
-                            <button className={styles.messageButton} onClick={()=>sendWhatsAppMessage()}>
-                                <Image alt='whatsappIcon' src={whatsappIcon} width={40} height={40} className={styles.messageIcon}/>
-                                <Image alt='whatsappIconColor' src={whatsappIconColor} width={40} height={40} className={styles.messageIconColor}/>
-                            </button>
-                            <button className={styles.messageButton} onClick={()=>sendEmailMessage()}>
-                                <Image alt='emailIcon' src={emailIcon} width={40} height={40} className={styles.messageIcon}/>
-                                <Image alt='emailIconColor' src={emailIconColor} width={40} height={40} className={styles.messageIconColor}/>
-                            </button>
-                        </div>
-                    </div>               
-                </DetailsSideBarArrowInfo>
-                <DetailsSideBarArrowInfo title={'Tarefas relacionadas ao cliente'}>
-                    <textarea value={caseLastTrackedFile!=null ? caseLastTrackedFile : ''} 
-                    placeholder='A última publicação não foi registrada' 
-                    className={`${styles.inputContent}`} 
-                    onChange={(e)=>{
-                        justLoadedSelectedCase.current = false
-                        setCaseLastTrackedFile(e.target.value)
-                    }}/>
-                </DetailsSideBarArrowInfo> */}
             </div>
         </DetailsSideCardDiv>
     )

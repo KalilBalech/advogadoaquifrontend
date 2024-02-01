@@ -1,0 +1,134 @@
+.taskDetailsDiv{
+    flex-direction: column;
+    gap: 50px;
+    min-width: 920px;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    border-radius: 20px;
+    font-size: 32px;
+    border: 1px solid var(--tertiary-color);
+    margin: 50px auto;
+    display: none;
+    max-width: 920px;
+
+}
+
+.displayBlock{
+    display: block;
+    /* position: relative;
+    animation: come-left 1s linear forwards; */
+
+}
+
+@keyframes come-left{
+    0% {
+        left: 100vw;
+    }
+    100% {
+        left: 0;
+    }
+}
+
+.taskDetailsHeader{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
+.arrowLeftIcon{
+    border: none;
+}
+
+.arrowLeftIcon:hover{
+    cursor: pointer;
+    animation: shake 0.3s ease-in-out forwards;
+}
+
+@keyframes shake {
+    50%{
+        /* transform: rotate(30deg); */
+        transform: translate(-10px);
+    }
+    /* 75%{
+        transform: rotate(-30deg);
+    } */
+    100%{
+        /* transform: rotate(0); */
+        transform: translate(0);
+    }
+}
+
+.taskTitleInput{
+    margin: auto;
+    text-align: center;
+    font-size: 32px;
+    background-color: var(--secondary-color);
+    border: none;
+    overflow: scroll;
+    color: var(--main-color);
+}
+
+.taskTitleInput:focus{
+    outline: none;
+    border-bottom: 1px solid black;
+}
+
+.taskDetailsIconAndInfo{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.taskDetailDeadlineInput{
+    background-color: var(--secondary-color);
+    border: none;
+    font-size: 32px;
+}
+
+.taskDetailDeadlineInput:focus{
+    outline: none;
+}
+
+.taskDetailDeadlineInput::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.selectLawyer{
+    background-color: var(--secondary-color);
+    border: none;
+    font-size: 32px;
+}
+
+.selectLawyer:hover{
+    outline: none;
+}
+
+.selectLawyer:focus{
+    outline: none;
+}
+
+.taskDescriptionInput{
+    background-color: var(--secondary-color);
+    font-size: 32px;
+    border: none;
+    border-bottom: solid 1px var(--tertiary-color);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    display: block;
+    margin: auto;
+    margin-top: 50px;
+    width: 100%;
+}
+
+.taskDescriptionInput:focus{
+    outline: none;
+    border-bottom: solid 1px black;
+}
+
+.responsibleLawyerOption:focus{
+    outline: none;
+}

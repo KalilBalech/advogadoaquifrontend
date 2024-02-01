@@ -8,8 +8,8 @@ export default function IconAndInput({alt, src, srcOnHover, label, state, setSta
     const [isFocused, setInFocused] = useState(false)
     return(
         <div className={styles.iconAndInputDiv}>
-            <Image alt={alt} src={src} width={60} height={60} className={`${styles.defaultImage} ${isFocused ? styles.displayNone : ''}`}></Image>
-            <Image alt={alt} src={srcOnHover} width={60} height={60} className={`${styles.onHoverImage} ${isFocused ? styles.displayBlock : ''}`}></Image>
+            <Image alt={alt} src={src} width={45} height={45} className={`${styles.defaultImage} ${isFocused ? styles.displayNone : ''}`}></Image>
+            <Image alt={alt} src={srcOnHover} width={45} height={45} className={`${styles.onHoverImage} ${isFocused ? styles.displayBlock : ''}`}></Image>
             <label className={styles.label}>{label}</label>
             <input className={styles.input} 
             type="text" 

@@ -4,7 +4,7 @@ import searchIcon from '@/public/searchIcon.svg'
 import axios from 'axios'
 import { useState, useEffect } from 'react';
 
-export default function SearchCaseBar({setModel, model}){
+export default function SearchBar({setModel, model}){
 
     const BASE_URL = process.env.BASE_URL;
     let FILTER_URL, GET_URL;

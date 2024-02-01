@@ -1,5 +1,5 @@
 "on client";
-import styles from "./TaskDetails.module.css";
+import styles from "./LawyerTaskDetails.module.css";
 import Image from "next/image";
 import clockIcon from "@/public/clockIcon.svg";
 import userIcon from "@/public/userIcon.svg";
@@ -10,8 +10,8 @@ import putTaskDescription from "@/utils/API/putTaskDescription";
 import putTaskDeadline from "@/utils/API/putTaskDeadline";
 import putTaskResponsibleLawyer from "@/utils/API/putTaskResponsibleLawyer";
 
-export default function TaskDetails({
-  selectedCase,
+export default function LawyerTaskDetails({
+  lawyerID,
   selectedTask,
   setSelectedTask,
 }) {
@@ -221,8 +221,8 @@ export default function TaskDetails({
         <Image alt="userIcon" src={userIcon} width={50} height={50} />
         <label>Responsável:</label>
         <select id="lawyers" name="lawyers" value={taskResponsibleLawyerID ? taskResponsibleLawyerID : ''} className={styles.selectLawyer} onChange={(e)=>{setTaskResponsibleLawyerID(e.target.value)}}>
-          {selectedCase && selectedCase.lawyers &&
-            selectedCase.lawyers.map((lawyer) => (
+          {selectedTask && selectedTask.lawyers &&
+            selectedTask.lawyers.map((lawyer) => (
               <option key={lawyer.id} value={lawyer.id} className={styles.responsibleLawyerOption}>
                 {lawyer.name}
               </option>
