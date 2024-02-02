@@ -11,13 +11,21 @@ export default function SearchBarCustomerName({setCustomers}){
     const [timer, setTimer] = useState(null);
     const [customerName, setCustomerName] = useState('')
 
+    const toCapitalCase = (str) => {
+        return str
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
+
     useEffect(() => {
         // Limpar o timer antigo antes de configurar um novo
         clearTimeout(timer);
         // Configurar um novo timer
         const newTimer = setTimeout(async() => {
             if (customerName){
-                const cases = await getCustomerByName();
+                const cases = await getCustomerByName(customerName);
                 setCustomers(cases)
             }
             else{
@@ -35,7 +43,7 @@ export default function SearchBarCustomerName({setCustomers}){
             <button className={styles.button}>
                 <Image alt='search icon' src={searchIcon} width='25' height='25'></Image>
             </button>
-            <input type="text" placeholder={'Nome do cliente'} className={styles.input} value={customerName} onChange={(e)=>setCustomerName(e.target.value)}/>
+            <input type="text" placeholder={'Nome do cliente'} className={styles.input} value={customerName} onChange={(e)=>setCustomerName(toCapitalCase(e.target.value))}/>
         </div>
     )
 }

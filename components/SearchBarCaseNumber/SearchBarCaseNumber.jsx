@@ -17,7 +17,7 @@ export default function SearchBarCaseNumber({setCases}){
         // Configurar um novo timer
         const newTimer = setTimeout(async() => {
             if (caseNumber){
-                const cases = await getCasesByNumber();
+                const cases = await getCasesByNumber(caseNumber);
                 setCases(cases)
             }
             else{

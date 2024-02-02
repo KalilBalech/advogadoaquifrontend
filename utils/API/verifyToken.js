@@ -17,7 +17,7 @@ export default function verifyToken(){
         console.log("Token verified!")
     })
     .catch((error) => {
-        console.log("Invalid Token: ", error);
+        // console.log("Invalid Token: ", error);
         throw new Error("Token verification failed");
       });
 }

@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "@/components/Header/Header";
 import verifyToken from "@/utils/API/verifyToken";
+import postLogin from "@/utils/API/postLogin";
 
 export default function Login() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    async function verifyTokenAndGetCases() {
+    async function verifyTokenAndGoToCustomers() {
       try {
           await verifyToken();
           router.push("/clientes");
@@ -23,7 +24,7 @@ export default function Login() {
           console.error("Necessário login: ", error);
       }
     }
-    verifyTokenAndGetCases();
+    verifyTokenAndGoToCustomers();
   }, []);
 
   const handleLogin = async (event) => {
@@ -33,14 +34,8 @@ export default function Login() {
       await postLogin(email, password)
       router.push("/clientes");
     } 
-    catch (error) {
-      // Qualquer erro em verifyToken ou getLawyerCases será tratado aqui
-      if (error.response == undefined) setErrorMessage("Parece que nosso servidor está fora do ar...");
-      else {
-        const statusCode = error.response.status;
-        if (statusCode == 401) 
-          setErrorMessage("Email ou senha inválidos");
-      }
+    catch (error){
+      setErrorMessage("Email ou senha inválidos");
     }
   };
 

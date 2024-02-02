@@ -17,6 +17,8 @@ export default function postLogin(email, password){
           return response.data
         })
         .catch((error) => {
-            return error
+          console.log("error: ", error)
+          console.log("error.response.status: ", error.response.status)
+          throw new Error(error);
         });
 }

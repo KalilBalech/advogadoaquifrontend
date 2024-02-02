@@ -105,6 +105,8 @@ export default function CaseDetailsSideCard({selectedCase, setSelectedCase}){
 
     useEffect(()=>{
         if(selectedCase && !justLoadedSelectedCase.current){
+            // const updatedCaseTasks = caseTasks.map(taskItem =>{return {...taskItem, lawyers: caseLawyers}});
+            // setCaseTasks(updatedCaseTasks);
             setSelectedCase(selectedCase=>{return {...selectedCase, lawyers: caseLawyers}})
         }
     }, [caseLawyers])
