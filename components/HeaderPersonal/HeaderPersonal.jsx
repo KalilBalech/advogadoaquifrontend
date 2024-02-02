@@ -8,15 +8,18 @@ import Image from 'next/image'
 import AAlogo from '@/public/AAlogo.svg'
 import userIcon from '@/public/userIcon.svg'
 import exitIcon from '@/public/exitIcon.svg'
+import removeToken from '@/utils/removeToken'
+import { useEffect, useState } from 'react'
 
-export default function HeaderPersonal(props){
-    const router = useRouter();
-    const handleLogout = ()=>{
-        console.log("vai dar logout")
-        localStorage.removeItem('token')
-        localStorage.removeItem('lawyerID')
-        router.push("/");
-    }
+export default function HeaderPersonal(){
+    const [logout, setLogout] = useState(false)
+
+    useEffect(()=>{
+        if(logout){
+            removeToken()
+            setLogout(false)
+        }
+    }, [logout])
     return (<>
         <div className={styles.headerDiv}>
             <Link href="/" className={styles.logo}><Image alt='AA Logo' src={AAlogo} height='80' width='80' priority/></Link>
@@ -26,8 +29,8 @@ export default function HeaderPersonal(props){
                 <HeaderLink href='/tarefas'>Tarefas</HeaderLink>
             </div>
             <div className={styles.navigationIcons}>
-                <HeaderIcon text='Meu perfil' href='/profile' alt='Icone de usuário' src={userIcon}></HeaderIcon>
-                <HeaderIcon text='Logout' href="/" alt='Icone de logout' src={exitIcon} onClick={()=>{handleLogout();}}></HeaderIcon>
+                <HeaderIcon href='/profile' alt='Icone de usuário' src={userIcon}/>
+                <HeaderIcon href="/" alt='Icone de logout' src={exitIcon} onClick={()=>{setLogout(true)}}/>
             </div>
         </div>
         <div className={styles.modeDiv}>

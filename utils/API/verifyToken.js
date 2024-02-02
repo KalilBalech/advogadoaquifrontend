@@ -13,8 +13,8 @@ export default function verifyToken(){
 
     return axios
     .post(`${BASE_URL}/lawyer/token/verify/`, tokenReqData, {headers: headers})
-    .then((response) => {
-        console.log("Token verified: ", response)
+    .then(() => {
+        console.log("Token verified!")
     })
     .catch((error) => {
         console.log("Invalid Token: ", error);

@@ -30,7 +30,7 @@ export default function CustomersTab() {
   }, [selectedTask])
   
   useEffect(() => {
-    token.current = decodeToken(localStorage.getItem("token"))
+    lawyerID.current = decodeToken(localStorage.getItem("token"))
     async function verifyTokenAndGetCustomers() {
       try {
           await verifyToken();

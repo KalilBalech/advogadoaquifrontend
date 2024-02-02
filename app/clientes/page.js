@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import HeaderPersonal from "@/components/HeaderPersonal/HeaderPersonal";
-import SearchBar from "@/components/SearchBar/SearchBar";
+import SearchBarCustomerName from "@/components/SearchBarCustomerName/SearchBarCustomerName";
 import { useRouter } from "next/navigation";
 import CustomerDetailsSideCard from "@/components/CustomerDetailsSideCard/CustomerDetailsSideCard";
 import CustomerCard from "@/components/CustomerCard/CustomerCard";
@@ -47,7 +47,7 @@ export default function CustomersTab() {
     <body className={`${styles.body} ${selectedCustomer ? styles.blockScroll : ''}`}>
       <HeaderPersonal></HeaderPersonal>
       <div className={styles.content}>
-        <SearchBar setModel={setCustomers} model='customer'></SearchBar>
+        <SearchBarCustomerName setCustomers={setCustomers}/>
         <ul>
             {customers.map((customer) => (
               <CustomerCard key={customer.id} customer={customer} setSelectedCustomer={setSelectedCustomer}></CustomerCard>

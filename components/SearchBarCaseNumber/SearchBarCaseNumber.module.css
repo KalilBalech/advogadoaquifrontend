@@ -1,0 +1,35 @@
+.searchBarDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: 1px solid var(--tertiary-color);
+}
+
+.button{
+    background-color: white;
+    border: none;
+}
+
+.button:hover{
+    cursor: pointer;
+}
+
+.input{
+    background-color: white;
+    border: none;
+    width: 560px;
+    max-width: 100%;
+    padding: 10px;
+    font-size: 24px;
+    color: black;
+}
+
+.input::placeholder{
+    font-size: 24px;
+    color: var(--placeholder-color);
+}
+
+.input:focus{
+    outline: none;
+}

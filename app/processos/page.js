@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import HeaderPersonal from "@/components/HeaderPersonal/HeaderPersonal";
-import SearchBar from "@/components/SearchBar/SearchBar";
+import SearchBarCaseNumber from "@/components/SearchBarCaseNumber/SearchBarCaseNumber";
 import CaseCard from "@/components/CaseCard/CaseCard";
 import { useRouter } from "next/navigation";
 import CaseDetailsSideCard from "@/components/CaseDetailsSideCard/CaseDetailsSideCard";
@@ -17,12 +17,10 @@ export default function LawyerCases() {
     // ATUALIZA A ARVORE DE INFORMAÇÕES NO FRONT
     useEffect(()=>{
       if (selectedCase) {
-        console.log("O SelectedCase atualizado: ", selectedCase)
         const updatedCases = cases.map(caseItem => 
           caseItem.id === selectedCase.id ? selectedCase : caseItem
         );
         setCases(updatedCases);
-        console.log("O CASES foi alterado porque o selectedCAse foi alterado: ", cases)
       }
   
     }, [selectedCase])
@@ -46,7 +44,7 @@ export default function LawyerCases() {
     <body className={`${styles.body} ${selectedCase!=null ? styles.blockScroll : ''}`}>
       <HeaderPersonal></HeaderPersonal>
       <div className={styles.content}>
-        <SearchBar setModel={setCases} model='case'></SearchBar>
+        <SearchBarCaseNumber setCases={setCases}/>
         <ul>
             {cases.map((caseItem) => (
               <CaseCard key={caseItem.id} case={caseItem} setSelectedCase={setSelectedCase}></CaseCard>
